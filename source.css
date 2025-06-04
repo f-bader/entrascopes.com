@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #c7eff7;
+    --color-dark: #1a1a1a;
+    --color-darker: #141414;
+}
+
+/* Improve Select2 styling */
+.select2-dropdown {
+    @apply bg-gray-800 border-gray-600;
+}
+
+.select2-search__field {
+    @apply bg-gray-700 text-primary;
+}
+
+.select2-selection__choice {
+    @apply bg-gray-700 border-gray-600 text-gray-600;
+}
+
+.select2-results__option {
+    @apply bg-gray-700 text-primary;
+}
+
+.select2-results__option--highlighted {
+    @apply bg-gray-600;
+}
+
+/* Fix for the background color of Select2 selections */
+.select2-container--default .select2-selection--multiple {
+    @apply bg-gray-700 border-gray-600 text-white py-2 px-3 min-h-[42px];
+}
+
+/* Fix for single selections */
+.select2-container--default .select2-selection--single {
+    @apply bg-gray-700 border-gray-600 text-white py-1 px-3 min-h-[42px];
+}
+
+/* Selection dropdown */
+.select2-container--default .select2-results .select2-results__options {
+    @apply bg-gray-700;
+}
+
+/* Selection text color */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply text-gray-100;
+}
+
+.select2-container {
+    @apply w-full;
+}
+
+.select2-selection {
+    @apply rounded border-gray-600;
+}
+
+@layer components {
+    .full-width-container {
+        @apply w-full max-w-full grid grid-cols-1;
+    }
+
+    .card-hover {
+        @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01] hover:-translate-y-0.5;
+    }
+
+    .app-card {
+        @apply p-5 bg-gray-800 rounded-lg shadow-md border border-gray-700 cursor-pointer hover:bg-gray-700 transition-colors;
+    }
+
+    .resource-item {
+        @apply mb-4 p-3 bg-gray-700 rounded-lg transition-colors hover:bg-gray-600;
+    }
+}
