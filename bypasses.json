@@ -1,0 +1,41 @@
+[
+    {
+        "AppID": "9ba1a5c7-f17a-4de9-a1f1-6178c8d51223",
+        "ProtectionBypass": [
+            "CompliantDevice"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "00000003-0000-0000-c000-000000000000": [
+                    "Device.Read.All",
+                    "DeviceManagementConfiguration.Read.All",
+                    "DeviceManagementConfiguration.ReadWrite.All",
+                    "ServicePrincipalEndpoint.Read.All",
+                    "User.Read"
+                ]
+            },
+            {
+                "00000002-0000-0000-c000-000000000000": [
+                    "ServicePrincipalEndpoint.Read.All",
+                    "User.Read"
+                ]
+            },
+            {
+                "01cb2876-7ebd-4aa4-9cc9-d28bd4d359a9": [
+                    "adrs_access"
+                ]
+            },
+            {
+                "d4ebce55-015a-49b5-a083-c84d1797ae8c": [
+                    "user_impersonation"
+                ]
+            }
+        ],
+        "CurrentState": "Partially Mitigated",
+        "Description": "You can read sensitive information about the service principals, the current user and devices in the tenant. Before February 2025 it was possible to access Azure Active Directory with the full set of permissions the user had within the tenant.",
+        "Attribution": [
+            "https://x.com/_dirkjan",
+            "https://x.com/TEMP43487580"
+        ]
+    }
+]
