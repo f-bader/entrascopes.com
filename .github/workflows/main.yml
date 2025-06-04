@@ -1,0 +1,23 @@
+name: Update firstpartyscopes.json
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "11 0 */7 * *"
+
+jobs:
+  pull-external-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Run PowerShell script to pull MVP data
+        run: |
+          wget https://raw.githubusercontent.com/dirkjanm/ROADtools/refs/heads/master/roadtx/roadtools/roadtx/firstpartyscopes.json
+
+      - name: Commit updated data to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
