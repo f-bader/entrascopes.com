@@ -1,1 +1,869 @@
 
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entra ID First Party Apps & Scope Browser</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- <link href="./tailwind.css" rel="stylesheet"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #c7eff7;
+        --color-dark: #1a1a1a;
+        --color-darker: #141414;
+      }
+      
+      /* Improve Select2 styling */
+      .select2-dropdown {
+        @apply bg-gray-800 border-gray-600;
+      }
+
+      .select2-search__field {
+        @apply bg-gray-700 text-primary;
+      }
+
+      .select2-selection__choice {
+        @apply bg-gray-700 border-gray-600 text-gray-600;
+      }
+
+      .select2-results__option {
+        @apply bg-gray-700 text-primary;
+      }
+
+      .select2-results__option--highlighted {
+        @apply bg-gray-600;
+      }
+
+      /* Fix for the background color of Select2 selections */
+      .select2-container--default .select2-selection--multiple {
+        @apply bg-gray-700 border-gray-600 text-white py-2 px-3 min-h-[42px];
+      }
+      
+      /* Fix for single selections */
+      .select2-container--default .select2-selection--single {
+        @apply bg-gray-700 border-gray-600 text-white py-1 px-3 min-h-[42px];
+      }
+
+      /* Selection dropdown */
+      .select2-container--default .select2-results .select2-results__options {
+        @apply bg-gray-700;
+      }
+
+      /* Selection text color */
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+        @apply text-gray-100;
+      }
+
+      .select2-container {
+        @apply w-full;
+      }
+
+      .select2-selection {
+        @apply rounded border-gray-600;
+      }
+
+      @layer components {
+        .full-width-container {
+          @apply w-full max-w-full grid grid-cols-1;
+        }
+
+        .card-hover {
+          @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01] hover:-translate-y-0.5;
+        }
+
+        .app-card {
+          @apply p-5 bg-gray-800 rounded-lg shadow-md border border-gray-700 cursor-pointer hover:bg-gray-700 transition-colors;
+        }
+
+        .resource-item {
+          @apply mb-4 p-3 bg-gray-700 rounded-lg transition-colors hover:bg-gray-600;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen p-4 md:p-8 bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100">
+    <div class="max-w-7xl mx-auto">
+      <header class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-primary flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+          </svg>
+          Entra ID First Party Apps & Scope Browser
+        </h1>
+        <p class="mt-2 text-gray-400">Browse and explore first-party applications including their pre-consented permissions in Microsoft Entra ID</p>
+      </header>
+
+      <!-- Filter Section -->
+      <div class="mb-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 text-primary">Filters</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="space-y-1">
+            <label for="searchInput" class="block text-sm font-medium text-gray-300">Search</label>
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="Search apps..." 
+                   class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary"
+            />
+          </div>
+          <div class="space-y-1">
+            <label for="fociFilter" class="block text-sm font-medium text-gray-300">FOCI Status</label>
+            <select id="fociFilter" 
+                    class="p-2 border rounded bg-gray-700 text-gray-100 border-gray-600 w-full focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">FOCI and Non-FOCI</option>
+              <option value="true">FOCI</option>
+              <option value="false">Non-FOCI</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label for="clientTypeFilter" class="block text-sm font-medium text-gray-300">Client Type</label>
+            <select id="clientTypeFilter" 
+                    class="p-2 border rounded bg-gray-700 text-gray-100 border-gray-600 w-full focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">All Client Types</option>
+              <option value="true">Public Client</option>
+              <option value="false">Confidential Client</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label for="naaFilter" class="block text-sm font-medium text-gray-300">Nested app authentication</label>
+            <select id="naaFilter" 
+                    class="p-2 border rounded bg-gray-700 text-gray-100 border-gray-600 w-full focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">All Apps</option>
+              <option value="true">Has NAA URIs</option>
+              <option value="false">No NAA URIs</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label for="bypassFilter" class="block text-sm font-medium text-gray-300">Conditional Access Bypass</label>
+            <select id="bypassFilter" 
+                    class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">All</option>
+              <option value="true">Bypass available</option>
+              <option value="false">No Bypass</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="space-y-1">
+            <label for="appIdFilter" class="block text-sm font-medium text-gray-300">App IDs</label>
+            <select id="appIdFilter" 
+                    class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary"
+                    multiple="multiple">
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label for="resourceFilter" class="block text-sm font-medium text-gray-300">Resources</label>
+            <select id="resourceFilter" 
+                    class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary"
+                    multiple="multiple">
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label for="scopeFilter" class="block text-sm font-medium text-gray-300">Scopes</label>
+            <select id="scopeFilter" 
+                    class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary"
+                    multiple="multiple">
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="appsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Apps will be populated here -->
+      </div>
+    </div>
+
+    <script>
+      async function loadAndDisplayApps() {
+        // Parse URL parameters for deep linking
+        function getUrlParameters() {
+          const params = new URLSearchParams(window.location.search);
+          return {
+            appId: params.get('appId'),
+            search: params.get('search'),
+            foci: params.get('foci'),
+            clientType: params.get('clientType'),
+            naa: params.get('naa'),
+            bypass: params.get('bypass'),
+            resources: params.getAll('resource'),
+            scopes: params.getAll('scope')
+          };
+        }
+
+        // Update URL with current filters
+        function updateUrlWithFilters() {
+          const params = new URLSearchParams();
+          
+          // Only add parameters that have values
+          if (searchInput.value) params.append('search', searchInput.value);
+          if (fociFilter.value) params.append('foci', fociFilter.value);
+          if (clientTypeFilter.value) params.append('clientType', clientTypeFilter.value);
+          if (naaFilter.value) params.append('naa', naaFilter.value);
+          if (bypassFilter.value) params.append('bypass', bypassFilter.value);
+          
+          // Add selected app IDs, resources, and scopes
+          const selectedAppIds = $('#appIdFilter').val() || [];
+          if (selectedAppIds.length === 1) {
+            params.append('appId', selectedAppIds[0]);
+          } else {
+            selectedAppIds.forEach(id => params.append('appId', id));
+          }
+          
+          const selectedResources = $('#resourceFilter').val() || [];
+          selectedResources.forEach(resource => params.append('resource', resource));
+          
+          const selectedScopes = $('#scopeFilter').val() || [];
+          selectedScopes.forEach(scope => params.append('scope', scope));
+          
+          // Update URL without reloading page
+          const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+          window.history.pushState({}, '', newUrl);
+        }
+
+        try {
+          const [scopesResponse, resourcesResponse, bypassesResponse] = await Promise.all([
+            fetch('firstpartyscopes.json'),
+            fetch('resources.json'),
+            fetch('bypasses.json')
+          ]);
+          
+          const data = await scopesResponse.json();
+          const resources = await resourcesResponse.json();
+          const bypasses = await bypassesResponse.json();
+
+          // Create a map of bypasses by AppID for easy lookup
+          const bypassesMap = {};
+          bypasses.forEach(bypass => {
+            if (!bypassesMap[bypass.AppID]) {
+              bypassesMap[bypass.AppID] = [];
+            }
+            bypassesMap[bypass.AppID].push(bypass);
+          });
+
+          // Create resourceMap using resourceId as key
+          const resourceMap = {};
+          resources.forEach(resource => {
+            resourceMap[resource.resourceId] = resource;
+          });
+
+          // Define getNaaInfo here after data is loaded
+          function getNaaInfo(redirectUris) {
+            if (!redirectUris || redirectUris.length === 0) return { hasNaa: false, naaApps: [] };
+            
+            const naaUris = redirectUris.filter(uri => uri.startsWith('brk-'));
+            if (naaUris.length === 0) return { hasNaa: false, naaApps: [] };
+            
+            const naaApps = naaUris.map(uri => {
+              // Extract UUID if it follows the pattern brk-uuid
+              const match = uri.match(/^brk-([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
+              return {
+                uri,
+                appId: match ? match[1] : null,
+                appName: match && data.apps[match[1]] ? data.apps[match[1]].name : null
+              };
+            });
+            
+            return {
+              hasNaa: true,
+              naaApps
+            };
+          }
+
+          // Collect unique resources and sort by displayName
+          const uniqueResources = new Set();
+          Object.values(data.apps).forEach(app => {
+            Object.keys(app.scopes).forEach(resource => uniqueResources.add(resource));
+          });
+
+          const sortedResources = Array.from(uniqueResources).sort((a, b) => {
+            const nameA = resourceMap[a]?.displayName || a;
+            const nameB = resourceMap[b]?.displayName || b;
+            return nameA.localeCompare(nameB);
+          });
+
+          const appsContainer = document.getElementById('appsContainer');
+          const searchInput = document.getElementById('searchInput');
+          const fociFilter = document.getElementById('fociFilter');
+          const appIdFilter = document.getElementById('appIdFilter');
+          const resourceFilter = document.getElementById('resourceFilter');
+          const scopeFilter = document.getElementById('scopeFilter');
+          const bypassFilter = document.getElementById('bypassFilter');
+          const clientTypeFilter = document.getElementById('clientTypeFilter');
+          const naaFilter = document.getElementById('naaFilter');
+
+          // Populate filter dropdowns
+          const appIds = Object.keys(data.apps);
+          
+          appIds.forEach(appId => {
+            const option = document.createElement('option');
+            option.value = appId;
+            option.textContent = `${data.apps[appId].name} (${appId})`;
+            appIdFilter.appendChild(option);
+          });
+
+          // Clear existing resource options
+          resourceFilter.innerHTML = '';
+
+          // Add resources with display names
+          sortedResources.forEach(resourceId => {
+            const resource = resourceMap[resourceId];
+            const option = document.createElement('option');
+            option.value = resourceId;
+            option.textContent = resource ? 
+              `${resource.displayName} (${resourceId})` : 
+              resourceId;
+            resourceFilter.appendChild(option);
+          });
+
+          // Collect unique scopes
+          const uniqueScopes = new Set();
+          Object.values(data.apps).forEach(app => {
+            Object.values(app.scopes).forEach(scopes => {
+              scopes.forEach(scope => uniqueScopes.add(scope));
+            });
+          });
+
+          const sortedScopes = Array.from(uniqueScopes).sort();
+          
+          // Initialize scope filter
+          sortedScopes.forEach(scope => {
+            const option = document.createElement('option');
+            option.value = scope;
+            option.textContent = scope;
+            scopeFilter.appendChild(option);
+          });
+
+          // Initialize select2
+          $('#appIdFilter').select2({
+            placeholder: 'Select App IDs',
+            allowClear: true,
+            tags: true,
+            theme: 'default', // Use default theme which we can fully customize
+            dropdownParent: $('body')
+          });
+
+          $('#resourceFilter').select2({
+            placeholder: 'Select Resources',
+            allowClear: true,
+            tags: true,
+            theme: 'default',
+            dropdownParent: $('body'),
+            templateResult: (resource) => {
+              if (!resource.id) return resource.text;
+              const resourceInfo = resourceMap[resource.id];
+              return resourceInfo ? 
+                `${resourceInfo.displayName} (${resource.id})` : 
+                resource.id;
+            }
+          });
+
+          $('#scopeFilter').select2({
+            placeholder: 'Select Scopes',
+            allowClear: true,
+            tags: true,
+            theme: 'default',
+            dropdownParent: $('body')
+          });
+
+          // Add this after all Select2 initializations to ensure styling is applied
+          setTimeout(() => {
+            // Force Select2 to refresh styles
+            $('.select2-container').css('width', '100%');
+            $('.select2-selection--multiple, .select2-selection--single').addClass('bg-gray-700 border-gray-600 text-white');
+            $('.select2-selection__rendered').addClass('text-gray-100');
+          }, 200);
+
+          // After initializing filters and before displayApps is called
+          // Apply URL parameters if present
+          const urlParams = getUrlParameters();
+          
+          if (urlParams.search) {
+            searchInput.value = urlParams.search;
+          }
+          
+          if (urlParams.foci) {
+            fociFilter.value = urlParams.foci;
+          }
+
+          if (urlParams.naa) {
+            naaFilter.value = urlParams.naa;
+          }
+
+          if (urlParams.bypass) {
+            bypassFilter.value = urlParams.bypass;
+          }
+          
+          if (urlParams.clientType) {
+            clientTypeFilter.value = urlParams.clientType;
+          }
+          
+          // Wait for select2 to initialize before setting values
+          setTimeout(() => {
+            if (urlParams.appId) {
+              // If a single app ID is specified and it exists, show its details directly
+              if (data.apps[urlParams.appId]) {
+                displayDetailedApp(urlParams.appId, data.apps[urlParams.appId]);
+                return;
+              } else {
+                // If app exists in our data, select it in the filter
+                $('#appIdFilter').val([urlParams.appId]).trigger('change');
+              }
+            }
+            
+            if (urlParams.resources && urlParams.resources.length > 0) {
+              $('#resourceFilter').val(urlParams.resources).trigger('change');
+            }
+            
+            if (urlParams.scopes && urlParams.scopes.length > 0) {
+              $('#scopeFilter').val(urlParams.scopes).trigger('change');
+            }
+            
+            // Display apps with the applied filters
+            displayApps();
+          }, 100);
+
+          // Modify your event listeners to update URL when filters change
+          searchInput.addEventListener('input', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+          
+          fociFilter.addEventListener('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+
+          naaFilter.addEventListener('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+          
+          bypassFilter.addEventListener('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+          
+          $('#appIdFilter').on('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+          
+          $('#resourceFilter').on('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+          
+          $('#scopeFilter').on('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+
+          clientTypeFilter.addEventListener('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+
+          function displayDetailedApp(appId, details) {
+            // Update URL to show we're viewing a specific app
+            const params = new URLSearchParams();
+            params.append('appId', appId);
+            window.history.pushState({}, '', window.location.pathname + '?' + params.toString());
+            
+            appsContainer.innerHTML = '';
+            // Add full-width class to container
+            appsContainer.className = 'full-width-container';
+            
+            const detailCard = document.createElement('div');
+            detailCard.className = 'w-full p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-700';
+            
+            // Get bypasses for this app
+            const appBypasses = bypassesMap[appId] || [];
+            
+            // Get NAA information
+            const naaInfo = getNaaInfo(details.redirect_uris);
+            
+            detailCard.innerHTML = `
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div>
+                  <h2 class="text-2xl font-bold text-primary">${details.name}</h2>
+                  <p class="text-gray-400">App ID: ${appId}</p>
+                </div>
+                <button id="backButton" class="px-4 py-2 bg-gray-700 text-gray-100 rounded hover:bg-gray-600 transition flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                  </svg>
+                  Back to Grid
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-3 mb-6">
+                <div class="p-3 rounded-lg bg-gray-700 inline-block">
+
+                ${details.foci ?
+                  `<span class="text-lg font-medium pr-1">
+                    <span class="text-xs py-1 px-2 bg-green-900 text-green-400 rounded-full">
+                      Family of Client IDs
+                    </span>
+                  </span>` : ''}
+
+                <span class="text-lg font-medium pr-1">
+                  <a href="https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-applications" target="_blank">
+                    <span class="text-xs py-1 px-2 ${details.public_client ? 'bg-purple-900 text-purple-300' : 'bg-gray-900 text-gray-400'} rounded-full">
+                      ${details.public_client ? 'Public client app' : 'Confidential client app'}
+                    </span>
+                  </a>
+                </span>
+                
+                ${naaInfo.hasNaa ? 
+                  `<div class="p-4 rounded-lg bg-gray-700 inline-block">
+                    <span class="text-xs py-1 px-2 bg-blue-900 text-blue-400 rounded-full">
+                      <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/nested-authentication" target="_blank">Nested app authentication</a>
+                    </span>
+                  </div>` : ''}
+                
+                ${appBypasses.length > 0 ? 
+                  `<span class="text-lg font-medium pr-1">
+                    <span class="text-xs py-1 px-2 bg-red-900 text-red-400 rounded-full">CA Bypasses (${appBypasses.length})</span>
+                  </span>` : ''}
+                </div>
+              </div>
+
+              ${appBypasses.length > 0 ? 
+                `<div class="mb-6 p-4 border border-red-500 border-opacity-50 rounded-lg bg-red-900 bg-opacity-20">
+                  <h3 class="font-bold text-xl text-red-400 mb-4">Known Conditional Access Bypasses</h3>
+                  <div class="space-y-4">
+                    ${appBypasses.map(bypass => `
+                      <div class="p-4 bg-gray-800 rounded-lg border border-gray-700">
+                        <div class="flex items-center gap-2 mb-3">
+                          <span class="px-3 py-1 rounded-full text-sm font-medium ${bypass.CurrentState === 'Mitigated' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'}">
+                            ${bypass.CurrentState}
+                          </span>
+                          ${bypass.ProtectionBypass.map(protection => 
+                            `<span class="px-3 py-1 bg-gray-700 rounded-full text-xs">
+                              ${protection}
+                            </span>`).join('')}
+                        </div>
+                        <p class="text-gray-300 text-sm mb-3">${bypass.Description}</p>
+                        ${bypass.ReadMore && bypass.ReadMore.length > 0 ? 
+                          `<div class="flex items-center gap-2 mb-3">
+                            <span class="text-sm text-gray-400">Read more:</span>
+                            <div class="flex flex-wrap gap-2">
+                              ${bypass.ReadMore.map(link => 
+                                `<a href="${link}" target="_blank" class="text-primary hover:underline text-sm flex items-center gap-1">
+                                  ${link.includes('learn.microsoft.com') ? 'Microsoft Docs' : link}
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                  </svg>
+                                </a>`
+                              ).join('')}
+                            </div>
+                          </div>` : ''}
+                        ${bypass.Attribution && bypass.Attribution.length > 0 ? 
+                          `<div class="flex items-center gap-2 mb-3">
+                            <span class="text-sm text-gray-400">Discovered by:</span>
+                            <div class="flex flex-wrap gap-2">
+                              ${bypass.Attribution.map(attr => 
+                                `<a href="${attr}" target="_blank" class="text-primary hover:underline text-sm">
+                                  ${attr.includes('x.com/') ? '@' + attr.split('x.com/')[1] : attr}
+                                </a>`
+                              ).join('')}
+                            </div>
+                          </div>` : ''}
+                        <div class="mt-3 pt-3 border-t border-gray-700">
+                          <h4 class="text-sm font-medium text-gray-400 mb-2">Affected Resources & Scopes:</h4>
+                          <div class="space-y-2">
+                            ${bypass.ResourcesAndScopes.map(item => {
+                              const resourceId = Object.keys(item)[0];
+                              const scopes = item[resourceId];
+                              return `
+                                <div class="p-2 bg-gray-700 rounded">
+                                  <div class="flex justify-between">
+                                    <span class="text-xs font-medium text-primary">
+                                      ${resourceMap[resourceId]?.displayName || resourceId}
+                                    </span>
+                                  </div>
+                                  <span class="text-xs text-gray-400 block">${resourceId}</span>
+                                  <div class="mt-1 pt-1 border-t border-gray-600">
+                                    <ul class="list-disc pl-4 text-xs text-gray-300">
+                                      ${scopes.map(scope => `<li>${scope}</li>`).join('')}
+                                    </ul>
+                                  </div>
+                                </div>
+                              `;
+                            }).join('')}
+                          </div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>` : ''}
+
+              <div class="grid grid-cols-2 lg:grid-cols-2 gap-6">
+                <div class="space-y-6">
+                  <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                    <h3 class="font-bold text-xl text-primary mb-4">Redirect URIs (${details.redirect_uris.length})</h3>
+                    
+                    <div class="mb-4 p-3 bg-gray-700 rounded-lg">
+                      <h4 class="font-semibold text-primary mb-1">Preferred Interactive Redirect URL</h4>
+                      <p class="text-sm text-gray-300 break-all">${details.preferred_interactive_redirurl || 'None specified'}</p>
+                    </div>
+                    
+                    <div class="mb-4 p-3 bg-gray-700 rounded-lg">
+                      <h4 class="font-semibold text-primary mb-1">Preferred Non-Interactive Redirect URL</h4>
+                      <p class="text-sm text-gray-300 break-all">${details.preferred_noninteractive_redirurl || 'None specified'}</p>
+                    </div>
+                    
+                    <div class="bg-gray-700 rounded-lg p-3">
+                      <h4 class="font-semibold text-primary mb-2">All Redirect URIs</h4>
+                      <ul class="list-disc pl-4 text-gray-300 space-y-2 max-h-80 overflow-y-auto pr-2">
+                        ${details.redirect_uris.map(uri => `
+                          <li class="text-sm break-all ${uri.startsWith('brk-') ? 'text-blue-300' : ''}">${uri}</li>
+                        `).join('')}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <h3 class="font-bold text-xl text-primary mb-2">Scopes by Resource</h3>
+                  <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    ${Object.entries(details.scopes)
+                      .sort(([a], [b]) => (resourceMap[a]?.displayName || a).localeCompare(resourceMap[b]?.displayName || b))
+                      .map(([resource, scopes]) => `
+                        <div class="p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
+                          <div class="flex flex-col mb-2">
+                            <span class="font-semibold text-primary text-lg">
+                              ${resourceMap[resource]?.displayName || 'Unknown Resource'}
+                            </span>
+                            <span class="text-xs text-gray-400">${resource}</span>
+                          </div>
+                          <div class="mt-2 border-t border-gray-600 pt-2">
+                            <span class="text-sm font-medium text-gray-300">${scopes.length} scope${scopes.length !== 1 ? 's' : ''}:</span>
+                            <ul class="list-disc pl-4 text-gray-300 mt-1">
+                              ${scopes.map(scope => `
+                                <li class="text-sm py-1">${scope}</li>
+                              `).join('')}
+                            </ul>
+                          </div>
+                        </div>
+                      `).join('')}
+                  </div>
+                </div>
+              </div>
+
+              ${naaInfo.hasNaa ? 
+                `
+                <div class="mb-6 p-4 border border-blue-500 border-opacity-50 rounded-lg bg-blue-900 bg-opacity-20">
+                  <h3 class="font-bold text-xl text-blue-400 mb-4">Native Application Authentication (NAA) URIs</h3>
+                  <div class="space-y-1">
+                    ${naaInfo.naaApps.map(app => `
+                      <li class="text-sm text-blue-300}">${app.uri} can be brokered by 
+                        <a href="?appId=${app.appId}" target="_self" class="text-primary hover:underline">
+                        ${app.appName ? `${app.appName}` : `Unknown app`}
+                        (${app.appId})
+                      </a>
+                      </li>
+                    `).join('')}
+                  </div>
+                  <div class="flex flex-col mb-2 pt-2">
+                    <span class="text-xs text-gray-400">Learn more about <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/nested-authentication" target="_blank" class="text-primary hover:underline">Nested app authentication.</a></span>
+                  </div>
+                </div>` : ''}
+            `;
+
+            appsContainer.appendChild(detailCard);
+            
+            document.getElementById('backButton').addEventListener('click', () => {
+              // Clear the URL parameters when going back to grid view
+              window.history.pushState({}, '', window.location.pathname);
+              
+              // Restore original grid layout
+              appsContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+              displayApps();
+            });
+          }
+
+          function displayApps() {
+            const searchText = searchInput.value.toLowerCase();
+            const fociValue = fociFilter.value;
+            const clientTypeValue = clientTypeFilter.value;
+            const naaValue = naaFilter.value;
+            const selectedAppIds = $('#appIdFilter').val() || [];
+            const selectedResources = $('#resourceFilter').val() || [];
+            const selectedScopes = $('#scopeFilter').val() || [];
+            const bypassValue = bypassFilter.value;
+
+            appsContainer.innerHTML = '';
+            let matchCount = 0;
+            
+            Object.entries(data.apps).forEach(([appId, details]) => {
+              const naaInfo = getNaaInfo(details.redirect_uris || []);
+              const matchesSearch = details.name.toLowerCase().includes(searchText);
+              const matchesFoci = fociValue === '' || details.foci.toString() === fociValue;
+              const matchesClientType = clientTypeValue === '' || 
+                                       (details.public_client !== undefined && 
+                                        details.public_client.toString() === clientTypeValue);
+              const matchesNaa = naaValue === '' || 
+                      (naaValue === 'true' && naaInfo.hasNaa) || 
+                      (naaValue === 'false' && !naaInfo.hasNaa);
+              const matchesAppId = selectedAppIds.length === 0 || selectedAppIds.includes(appId);
+              const matchesResource = selectedResources.length === 0 || 
+                                    selectedResources.some(r => Object.keys(details.scopes).includes(r));
+              const matchesScope = selectedScopes.length === 0 || 
+                                  selectedScopes.some(s => 
+                                    Object.values(details.scopes).some(scopes => 
+                                      scopes.includes(s)));
+              const hasBypass = bypassesMap[appId] && bypassesMap[appId].length > 0;
+              const matchesBypass = bypassValue === '' || 
+                                   (bypassValue === 'true' && hasBypass) || 
+                                   (bypassValue === 'false' && !hasBypass);
+
+              if (matchesSearch && matchesFoci && matchesClientType && matchesNaa && matchesAppId && matchesResource && matchesScope && matchesBypass) {
+                matchCount++;
+                const card = document.createElement('div');
+                card.className = 'app-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01] hover:-translate-y-0.5';
+                
+                // Get bypasses for this app
+                const appBypasses = bypassesMap[appId] || [];
+                
+                // Check for NAA (brk-) redirect URIs
+                const naaInfo = getNaaInfo(details.redirect_uris);
+                
+                // Sort resources by displayName
+                const sortedResources = Object.entries(details.scopes).sort((a, b) => {
+                  const nameA = resourceMap[a[0]]?.displayName || a[0];
+                  const nameB = resourceMap[b[0]]?.displayName || b[0];
+                  return nameA.localeCompare(nameB);
+                });
+
+                // Count total scopes
+                const totalScopes = sortedResources.reduce((count, [_, scopes]) => count + scopes.length, 0);
+
+                card.innerHTML = `
+                  <div class="flex justify-between items-start mb-2">
+                    <h2 class="text-xl font-bold text-primary">${details.name}</h2>
+                  </div>
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="text-xs py-1 px-2 ${details.foci ? 'bg-green-900 text-green-400' : 'bg-yellow-900 text-yellow-400'} rounded-full">
+                      ${details.foci ? 'FOCI' : 'Non-FOCI'}
+                    </span>
+                    <span class="text-xs py-1 px-2 ${details.public_client ? 'bg-purple-900 text-purple-300' : 'bg-gray-900 text-gray-400'} rounded-full">
+                      ${details.public_client ? 'Public Client' : 'Confidential'}
+                    </span>
+                    ${naaInfo.hasNaa ? 
+                      `<span class="text-xs py-1 px-2 bg-blue-900 text-blue-300 rounded-full">
+                        NAA
+                      </span>` : ''}
+                    ${appBypasses.length > 0 ? 
+                      `<span class="text-xs py-1 px-2 bg-red-900 text-red-400 rounded-full" title="Has known CA bypasses">
+                        CA Bypass (${appBypasses.length})
+                      </span>` : ''
+                    }
+                  </div>
+                  <p class="text-sm text-gray-400 mb-4">App ID: ${appId}</p>
+                  
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    <div class="text-xs py-1 px-2 bg-gray-700 rounded-full text-primary">
+                      ${Object.keys(details.scopes).length} Resources
+                    </div>
+                    <div class="text-xs py-1 px-2 bg-gray-700 rounded-full text-primary">
+                      ${totalScopes} Scopes
+                    </div>
+                    <div class="text-xs py-1 px-2 bg-gray-700 rounded-full text-primary">
+                      ${details.redirect_uris.length} URIs
+                    </div>
+                  </div>
+
+                  <div class="space-y-3 mt-4">
+                    <h3 class="font-semibold text-gray-200 text-sm uppercase">Resources:</h3>
+                    <div class="max-h-48 overflow-y-auto pr-1">
+                      ${sortedResources.slice(0, 5).map(([resource, scopes]) => `
+                        <div class="mb-2 p-2 bg-gray-700 rounded">
+                          <div class="flex justify-between">
+                            <span class="font-medium text-primary text-sm">
+                              ${resourceMap[resource]?.displayName || 'Unknown Resource'}
+                            </span>
+                            <span class="text-xs text-gray-400">${scopes.length} scope${scopes.length !== 1 ? 's' : ''}</span>
+                          </div>
+                          <span class="text-xs text-gray-400 truncate block">${resource}</span>
+                        </div>
+                      `).join('')}
+                      ${sortedResources.length > 5 ? 
+                        `<div class="text-center text-sm text-gray-400 mt-2">
+                          +${sortedResources.length - 5} more resources
+                        </div>` : ''}
+                    </div>
+                  </div>
+                `;
+                
+                card.addEventListener('click', () => {
+                  displayDetailedApp(appId, details);
+                });
+
+                appsContainer.appendChild(card);
+              }
+            });
+
+            // If no apps match the filters
+            if (matchCount === 0) {
+              const noResults = document.createElement('div');
+              noResults.className = 'col-span-1 md:col-span-2 lg:col-span-3 p-8 text-center';
+              noResults.innerHTML = `
+                <svg class="mx-auto h-12 w-12 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="mt-4 text-lg font-medium text-gray-300">No applications match your filters</h3>
+                <p class="mt-1 text-gray-400">Try adjusting your search criteria or clear some filters</p>
+                <button id="clearFilters" class="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                  Clear All Filters
+                </button>
+              `;
+              appsContainer.appendChild(noResults);
+
+              document.getElementById('clearFilters').addEventListener('click', () => {
+                searchInput.value = '';
+                fociFilter.value = '';
+                clientTypeFilter.value = '';
+                $('#appIdFilter').val(null).trigger('change');
+                $('#resourceFilter').val(null).trigger('change');
+                $('#scopeFilter').val(null).trigger('change');
+                bypassFilter.value = '';
+                displayApps();
+                // Clear URL parameters
+                window.history.pushState({}, '', window.location.pathname);
+              });
+            }
+          }
+
+          // Add event listeners for all filters
+          searchInput.addEventListener('input', displayApps);
+          fociFilter.addEventListener('change', displayApps);
+          $('#appIdFilter').on('change', displayApps);
+          $('#resourceFilter').on('change', displayApps);
+          $('#scopeFilter').on('change', displayApps);
+          bypassFilter.addEventListener('change', displayApps);
+          clientTypeFilter.addEventListener('change', displayApps);
+
+          displayApps();
+          
+        } catch (error) {
+          console.error('Error loading data:', error);
+          appsContainer.innerHTML = `
+            <div class="col-span-full p-8 bg-red-900 bg-opacity-20 rounded-lg text-center">
+              <h3 class="text-xl font-bold text-red-400">Error Loading Data</h3>
+              <p class="text-gray-300 mt-2">${error.message || 'Unknown error occurred'}</p>
+              <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                Try Again
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      loadAndDisplayApps();
+    </script>
+  </body>
+</html>
