@@ -15,9 +15,13 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
 
-      - name: Run PowerShell script to pull MVP data
+      - name: Fetch data from ROADtools
         run: |
-          wget https://raw.githubusercontent.com/dirkjanm/ROADtools/refs/heads/master/roadtx/roadtools/roadtx/firstpartyscopes.json
+          wget -q https://raw.githubusercontent.com/dirkjanm/ROADtools/refs/heads/master/roadtx/roadtools/roadtx/firstpartyscopes.json
+
+      - name: Fetch data from ROADtools
+        run: |
+          wget -q https://raw.githubusercontent.com/Cloud-Architekt/AzurePrivilegedIAM/refs/heads/main/Classification/Classification_AppRoles.json
 
       - name: Commit updated data to repo
         uses: stefanzweifel/git-auto-commit-action@v5
