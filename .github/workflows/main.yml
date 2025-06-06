@@ -1,4 +1,4 @@
-name: Update firstpartyscopes.json
+name: Update base data
 
 on:
   workflow_dispatch:
@@ -17,11 +17,11 @@ jobs:
 
       - name: Fetch data from ROADtools
         run: |
-          wget -q https://raw.githubusercontent.com/dirkjanm/ROADtools/refs/heads/master/roadtx/roadtools/roadtx/firstpartyscopes.json
+          curl -O https://raw.githubusercontent.com/dirkjanm/ROADtools/refs/heads/master/roadtx/roadtools/roadtx/firstpartyscopes.json
 
-      - name: Fetch data from ROADtools
+      - name: Fetch data from AzurePrivilegedIAM
         run: |
-          wget -q https://raw.githubusercontent.com/Cloud-Architekt/AzurePrivilegedIAM/refs/heads/main/Classification/Classification_AppRoles.json
+          curl -O https://raw.githubusercontent.com/Cloud-Architekt/AzurePrivilegedIAM/refs/heads/main/Classification/Classification_AppRoles.json
 
       - name: Commit updated data to repo
         uses: stefanzweifel/git-auto-commit-action@v5
