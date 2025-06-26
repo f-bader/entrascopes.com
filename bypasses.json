@@ -1,5 +1,110 @@
 [
     {
+        "AppID": "4813382a-8fa7-425e-ab75-3b753aab3abb",
+        "ProtectionBypass": [
+            "CompliantDevice"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "00000003-0000-0000-c000-000000000000": [
+                    "UserAuthenticationMethod.Read"
+                ]
+            }
+        ],
+        "CurrentState": "Mitigated",
+        "Description": "It was possible to read the user's authentication methods, such as phone numbers and email addresses. This was acknowledged as a bug (VULN-146155) and has been fixed at the resource provider level.",
+        "Attribution": [
+            "https://x.com/fabian_bader"
+        ]
+    },
+    {
+        "AppID": "4813382a-8fa7-425e-ab75-3b753aab3abb",
+        "ProtectionBypass": [
+            "CompliantDevice"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "00000003-0000-0000-c000-000000000000": [
+                    "email",
+                    "offline_access",
+                    "openid",
+                    "profile"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "Basic information about the user, such as name and email address can be accessed. This behavior is documented.",
+        "ReadMore": [
+            "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-cloud-apps#conditional-access-behavior-when-an-all-resources-policy-has-an-app-exclusion"
+        ],
+        "Attribution": [
+            "https://x.com/fabian_bader"
+        ]
+    },
+    {
+        "AppID": "038ddad9-5bbe-4f64-b0cd-12434d1e633b",
+        "ProtectionBypass": [
+            "OnlyAccessWithGSAAllResources"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "128b0dd9-1511-459e-9f95-168f2376341c": [
+                    "NetworkProfile.Internet"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "Documented behavior: Global Secure Access resources are automatically excluded from the Conditional Access policy when Compliant Network is enabled in the policy. There's no explicit resource exclusion required. These automatic exclusions are required to ensure the Global Secure Access client is not blocked from accessing the resources it needs.",
+        "ReadMore": [
+            "https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-compliant-network"
+        ],
+        "Attribution": [
+            "Microsoft"
+        ]
+    },
+    {
+        "AppID": "760282b4-0cfc-4952-b467-c8e0298fee16",
+        "ProtectionBypass": [
+            "OnlyAccessWithGSAAllResources"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "128b0dd9-1511-459e-9f95-168f2376341c": [
+                    "NetworkProfile.M365"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "Documented behavior: Global Secure Access resources are automatically excluded from the Conditional Access policy when Compliant Network is enabled in the policy. There's no explicit resource exclusion required. These automatic exclusions are required to ensure the Global Secure Access client is not blocked from accessing the resources it needs.",
+        "ReadMore": [
+            "https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-compliant-network"
+        ],
+        "Attribution": [
+            "Microsoft"
+        ]
+    },
+    {
+        "AppID": "038ddad9-5bbe-4f64-b0cd-12434d1e633b",
+        "ProtectionBypass": [
+            "OnlyAccessWithGSAAllResources"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "128b0dd9-1511-459e-9f95-168f2376341c": [
+                    "NetworkProfile.M365"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "Documented behavior: Global Secure Access resources are automatically excluded from the Conditional Access policy when Compliant Network is enabled in the policy. There's no explicit resource exclusion required. These automatic exclusions are required to ensure the Global Secure Access client is not blocked from accessing the resources it needs.",
+        "ReadMore": [
+            "https://learn.microsoft.com/en-us/entra/global-secure-access/how-to-compliant-network"
+        ],
+        "Attribution": [
+            "Microsoft"
+        ]
+    },
+    {
         "AppID": "9ba1a5c7-f17a-4de9-a1f1-6178c8d51223",
         "ProtectionBypass": [
             "CompliantDevice"
@@ -31,8 +136,30 @@
                 ]
             }
         ],
-        "CurrentState": "Partially Mitigated",
-        "Description": "You can read sensitive information about the service principals, the current user and devices in the tenant. Before February 2025 it was possible to access Azure Active Directory with the full set of permissions the user had within the tenant.",
+        "CurrentState": "Active - Partially Documented",
+        "Description": "You can read sensitive information about the service principals, the current user and devices in the tenant.",
+        "Attribution": [
+            "https://x.com/_dirkjan",
+            "https://x.com/TEMP43487580"
+        ],
+        "ReadMore": [
+            "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance#:~:text=You%20can%20enroll%20your%20new%20devices%20to%20Intune%20even%20if%20you%20select%20Require%20device%20to%20be%20marked%20as%20compliant%20for%20All%20users%20and%20All%20resources%20(formerly%20%27All%20cloud%20apps%27)%20using%20the%20previous%20steps.%20The%20Require%20device%20to%20be%20marked%20as%20compliant%20control%20doesn%27t%20block%20Intune%20enrollment."
+        ]
+    },
+    {
+        "AppID": "9ba1a5c7-f17a-4de9-a1f1-6178c8d51223",
+        "ProtectionBypass": [
+            "CompliantDevice"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "00000002-0000-0000-c000-000000000000": [
+                    "user_impersonation"
+                ]
+            }
+        ],
+        "CurrentState": "Mitigated",
+        "Description": "Before February 2025 it was possible to access Azure Active Directory with the full set of permissions the user had within the tenant.",
         "Attribution": [
             "https://x.com/_dirkjan",
             "https://x.com/TEMP43487580"
