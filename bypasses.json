@@ -84,14 +84,14 @@
         ]
     },
     {
-        "AppID": "038ddad9-5bbe-4f64-b0cd-12434d1e633b",
+        "AppID": "760282b4-0cfc-4952-b467-c8e0298fee16",
         "ProtectionBypass": [
             "OnlyAccessWithGSAAllResources"
         ],
         "ResourcesAndScopes": [
             {
                 "128b0dd9-1511-459e-9f95-168f2376341c": [
-                    "NetworkProfile.M365"
+                    "NetworkProfile.Private"
                 ]
             }
         ],
