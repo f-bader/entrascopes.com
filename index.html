@@ -486,7 +486,7 @@
                 ${naaInfo.hasNaa ? 
                   `<span class="text-lg font-medium pr-1">
                     <span class="text-xs py-1 px-2 bg-blue-900 text-blue-400 rounded-full">
-                      <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/nested-authentication" target="_blank">Nested app authentication</a>
+                      <a href="https://learn.microsoft.com/en-us/microsoftteams/platform/concepts/authentication/nested-authentication" target="_blank">BroCI / Nested app authentication</a>
                     </span>
                   </span>` : ''}
                 
@@ -638,7 +638,7 @@
               ${naaInfo.hasNaa ? 
                 `
                   <div class="m-6 p-4 border border-blue-500 border-opacity-50 rounded-lg bg-blue-900 bg-opacity-20">
-                    <h3 class="font-bold text-xl text-blue-400 mb-4">Native Application Authentication (NAA) URIs</h3>
+                    <h3 class="font-bold text-xl text-blue-400 mb-4">BroCI / Native Application Authentication (NAA) URIs</h3>
                     <div class="space-y-1">
                       ${naaInfo.naaApps.map(app => `
                         <li class="text-sm text-blue-300}">${app.uri} can be brokered by 
@@ -738,7 +738,7 @@
                     }
                     ${naaInfo.hasNaa ? 
                       `<span class="text-xs py-1 px-2 bg-blue-900 text-blue-300 rounded-full">
-                        NAA
+                        BroCI (NAA)
                       </span>` : ''
                     }
                     ${appBypasses.length > 0 ? 
