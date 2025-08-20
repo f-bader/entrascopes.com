@@ -723,10 +723,16 @@
               const matchesAppId = selectedAppIds.length === 0 || selectedAppIds.includes(appId);
               const matchesResource = selectedResources.length === 0 || 
                                     selectedResources.some(r => Object.keys(details.scopes).includes(r));
-              const matchesScope = selectedScopes.length === 0 || 
-                                  selectedScopes.some(s => 
-                                    Object.values(details.scopes).some(scopes => 
-                                      scopes.includes(s)));
+              const matchesScope =
+                selectedScopes.length === 0 ? true :
+                selectedResources.length === 0
+                  // No resources selected: does any resource contain the selected scopes?
+                  ? selectedScopes.some(s => Object.values(details.scopes).some(scopes => scopes.includes(s)))
+                  // Both resources and scopes selected: each selected resource must include at least one selected scope
+                  : selectedResources.every(r =>
+                      Array.isArray(details.scopes[r]) &&
+                      selectedScopes.some(s => details.scopes[r].includes(s))
+                    );
               const hasBypass = bypassesMap[appId] && bypassesMap[appId].length > 0;
               const matchesBypass = bypassValue === '' || 
                                    (bypassValue === 'true' && hasBypass) || 
