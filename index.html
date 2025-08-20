@@ -715,6 +715,10 @@
                 
                 // Sort resources by displayName
                 const sortedResources = Object.entries(details.scopes).sort((a, b) => {
+                  // Always sort MS Graph first
+                  if (a[0] == '00000003-0000-0000-c000-000000000000') return -1;
+                  if (b[0] == '00000003-0000-0000-c000-000000000000') return 1;
+
                   const nameA = resourceMap[a[0]]?.displayName || a[0];
                   const nameB = resourceMap[b[0]]?.displayName || b[0];
                   return nameA.localeCompare(nameB);
