@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://plausible.cloudbrothers.info; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self' https://plausible.cloudbrothers.info; font-src 'self';" />
     <title>Entra ID First Party Apps & Scope Browser</title>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" integrity="sha384-OXVF05DQEe311p6ohU11NwlnX08FzMCsyoXzGOaL+83dKAb3qS17yZJxESl8YrJQ" crossorigin="anonymous">
     <link href="./tailwind.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" integrity="sha384-d3UHjPdzJkZuk5H3qKYMLRyWLAQBJbby2yr2Q58hXXtAGF8RSNO9jpLDlKKPv5v3" crossorigin="anonymous"></script>
     <script defer data-domain="entrascopes.com" src="https://plausible.cloudbrothers.info/js/script.js"></script>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -135,6 +136,36 @@
     </div>
 
     <script>
+      // HTML escaping function to prevent XSS
+      function escapeHtml(text) {
+        if (text === null || text === undefined) return '';
+        const map = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        };
+        return String(text).replace(/[&<>"']/g, m => map[m]);
+      }
+
+      // Validate UUID format
+      function validateUUID(uuid) {
+        if (!uuid) return false;
+        return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
+      }
+
+      // Validate URL to prevent injection
+      function validateUrl(url) {
+        if (!url) return false;
+        try {
+          const parsed = new URL(url);
+          return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+        } catch {
+          return false;
+        }
+      }
+
       async function loadAndDisplayApps() {
         // Parse URL parameters for deep linking
         function getUrlParameters() {
@@ -310,6 +341,7 @@
           appIds.forEach(appId => {
             const option = document.createElement('option');
             option.value = appId;
+            // textContent automatically escapes, but being explicit
             option.textContent = `${data.apps[appId].name} (${appId})`;
             appIdFilter.appendChild(option);
           });
@@ -413,22 +445,30 @@
           // Wait for select2 to initialize before setting values
           setTimeout(() => {
             if (urlParams.appId) {
-              // If a single app ID is specified and it exists, show its details directly
-              if (data.apps[urlParams.appId]) {
+              // Validate appId before using it
+              if (validateUUID(urlParams.appId) && data.apps[urlParams.appId]) {
                 displayDetailedApp(urlParams.appId, data.apps[urlParams.appId]);
                 return;
-              } else {
+              } else if (validateUUID(urlParams.appId)) {
                 // If app exists in our data, select it in the filter
                 $('#appIdFilter').val([urlParams.appId]).trigger('change');
               }
             }
             
             if (urlParams.resources && urlParams.resources.length > 0) {
-              $('#resourceFilter').val(urlParams.resources).trigger('change');
+              // Validate resource UUIDs
+              const validResources = urlParams.resources.filter(r => validateUUID(r));
+              if (validResources.length > 0) {
+                $('#resourceFilter').val(validResources).trigger('change');
+              }
             }
             
             if (urlParams.scopes && urlParams.scopes.length > 0) {
-              $('#scopeFilter').val(urlParams.scopes).trigger('change');
+              // Basic sanitization for scope names (alphanumeric, dots, underscores, hyphens)
+              const validScopes = urlParams.scopes.filter(s => /^[a-zA-Z0-9._-]+$/.test(s));
+              if (validScopes.length > 0) {
+                $('#scopeFilter').val(validScopes).trigger('change');
+              }
             }
             
             // Display apps with the applied filters
@@ -500,8 +540,8 @@
             detailCard.innerHTML = `
               <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
-                  <h2 class="text-2xl font-bold text-primary">${details.name}</h2>
-                  <p class="text-gray-400">App ID: <span class="select-all app-id-span">${appId}</span>
+                  <h2 class="text-2xl font-bold text-primary">${escapeHtml(details.name)}</h2>
+                  <p class="text-gray-400">App ID: <span class="select-all app-id-span">${escapeHtml(appId)}</span>
   <button class="copy-appid-btn bg-gray-700 hover:bg-primary text-primary hover:text-gray-900 rounded-full p-1" 
           title="Copy App ID" 
           data-appid="${appId}">
@@ -558,25 +598,25 @@
                       <div class="p-4 bg-gray-800 rounded-lg border border-gray-700">
                         <div class="flex items-center gap-2 mb-3">
                           <span class="px-3 py-1 rounded-full text-sm font-medium ${bypass.CurrentState === 'Mitigated' ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'}">
-                            ${bypass.CurrentState}
+                            ${escapeHtml(bypass.CurrentState)}
                           </span>
                           ${bypass.ProtectionBypass.map(protection => 
                             `<span class="px-3 py-1 bg-gray-700 rounded-full text-xs">
-                              ${protection}
+                              ${escapeHtml(protection)}
                             </span>`).join('')}
                         </div>
-                        <p class="text-gray-300 text-sm mb-3">${bypass.Description}</p>
+                        <p class="text-gray-300 text-sm mb-3">${escapeHtml(bypass.Description)}</p>
                         ${bypass.ReadMore && bypass.ReadMore.length > 0 ? 
                           `<div class="flex items-center gap-2 mb-3">
                             <span class="text-sm text-gray-400">Read more:</span>
                             <div class="flex flex-wrap gap-2">
                               ${bypass.ReadMore.map(link => 
-                                `<a href="${link}" target="_blank" class="text-primary hover:underline text-sm flex items-center gap-1">
-                                  ${link.includes('learn.microsoft.com') ? 'Microsoft Docs' : link}
+                                validateUrl(link) ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline text-sm flex items-center gap-1">
+                                  ${link.includes('learn.microsoft.com') ? 'Microsoft Docs' : escapeHtml(link)}
                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                   </svg>
-                                </a>`
+                                </a>` : ''
                               ).join('')}
                             </div>
                           </div>` : ''}
@@ -585,9 +625,9 @@
                             <span class="text-sm text-gray-400">Discovered by:</span>
                             <div class="flex flex-wrap gap-2">
                               ${bypass.Attribution.map(attr => 
-                                `<a href="${attr}" target="_blank" class="text-primary hover:underline text-sm">
-                                  ${attr.includes('x.com/') ? '@' + attr.split('x.com/')[1] : attr}
-                                </a>`
+                                validateUrl(attr) ? `<a href="${escapeHtml(attr)}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline text-sm">
+                                  ${attr.includes('x.com/') ? '@' + escapeHtml(attr.split('x.com/')[1]) : escapeHtml(attr)}
+                                </a>` : escapeHtml(attr)
                               ).join('')}
                             </div>
                           </div>` : ''}
@@ -598,16 +638,16 @@
                               const resourceId = Object.keys(item)[0];
                               const scopes = item[resourceId];
                               return `
-                                <div class="p-2 bg-gray-700 rounded">
+                        <div class="p-4 bg-gray-700 rounded">
                                   <div class="flex justify-between">
                                     <span class="text-xs font-medium text-primary">
-                                      ${resourceMap[resourceId]?.displayName || resourceId}
+                                      ${escapeHtml(resourceMap[resourceId]?.displayName) || escapeHtml(resourceId)}
                                     </span>
                                   </div>
-                                  <span class="text-xs text-gray-400 block">${resourceId}</span>
+                                  <span class="text-xs text-gray-400 block">${escapeHtml(resourceId)}</span>
                                   <div class="mt-1 pt-1 border-t border-gray-600">
                                     <ul class="list-disc pl-4 text-xs text-gray-300">
-                                      ${scopes.map(scope => `<li>${scope}</li>`).join('')}
+                                      ${scopes.map(scope => `<li>${escapeHtml(scope)}</li>`).join('')}
                                     </ul>
                                   </div>
                                 </div>
@@ -627,19 +667,19 @@
                     
                     <div class="mb-4 p-3 bg-gray-700 rounded-lg">
                       <h4 class="font-semibold text-primary mb-1">Preferred Interactive Redirect URL</h4>
-                      <p class="text-sm text-gray-300 break-all">${details.preferred_interactive_redirurl || 'None specified'}</p>
+                      <p class="text-sm text-gray-300 break-all">${escapeHtml(details.preferred_interactive_redirurl) || 'None specified'}</p>
                     </div>
                     
                     <div class="mb-4 p-3 bg-gray-700 rounded-lg">
                       <h4 class="font-semibold text-primary mb-1">Preferred Non-Interactive Redirect URL</h4>
-                      <p class="text-sm text-gray-300 break-all">${details.preferred_noninteractive_redirurl || 'None specified'}</p>
+                      <p class="text-sm text-gray-300 break-all">${escapeHtml(details.preferred_noninteractive_redirurl) || 'None specified'}</p>
                     </div>
                     
                     <div class="bg-gray-700 rounded-lg p-3">
                       <h4 class="font-semibold text-primary mb-2">All Redirect URIs</h4>
                       <ul class="list-disc pl-4 text-gray-300 space-y-2 max-h-80 overflow-y-auto pr-2">
                         ${details.redirect_uris.map(uri => `
-                          <li class="text-sm break-all ${uri.startsWith('brk-') ? 'text-blue-300' : ''}">${uri}</li>
+                          <li class="text-sm break-all ${uri.startsWith('brk-') ? 'text-blue-300' : ''}">${escapeHtml(uri)}</li>
                         `).join('')}
                       </ul>
                     </div>
@@ -663,9 +703,9 @@
                         <div class="p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors">
                           <div class="flex flex-col mb-2">
                             <span class="font-semibold text-primary text-lg">
-                              ${resourceMap[resource]?.displayName || 'Unknown Resource'}
+                              ${escapeHtml(resourceMap[resource]?.displayName) || 'Unknown Resource'}
                             </span>
-                            <span class="text-xs text-gray-400">${resource}</span>
+                            <span class="text-xs text-gray-400">${escapeHtml(resource)}</span>
                           </div>
                           <div class="mt-2 border-t border-gray-600 pt-2">
                             <span class="text-sm font-medium text-gray-300">${scopes.length} scope${scopes.length !== 1 ? 's' : ''}:</span>
@@ -683,9 +723,9 @@
                                     matchingClassification.EAMTierLevelName === 'ManagementPlane' ? 'bg-yellow-900 text-yellow-200' : 
                                     matchingClassification.EAMTierLevelName === 'UserAccess' ? 'bg-green-900 text-green-200' : 
                                     'bg-gray-700 text-gray-300'
-                                  }"> <a href="https://learn.microsoft.com/en-us/security/privileged-access-workstations/privileged-access-access-model" target="_blank">EAM Classification</a>: ${matchingClassification.EAMTierLevelName} </span>` : '';                        
+                                  }"> <a href="https://learn.microsoft.com/en-us/security/privileged-access-workstations/privileged-access-access-model" target="_blank">EAM Classification</a>: ${escapeHtml(matchingClassification.EAMTierLevelName)} </span>` : '';                        
                                 
-                                return `<li class="text-sm py-1">${scope} ${tierLevel}</li>`;
+                                return `<li class="text-sm py-1">${escapeHtml(scope)} ${tierLevel}</li>`;
                               }).join('')}
                             </ul>
                           </div>
@@ -702,10 +742,10 @@
                     <h3 class="font-bold text-xl text-blue-400 mb-4">BroCI / Native Application Authentication (NAA) URIs</h3>
                     <div class="space-y-1">
                       ${naaInfo.naaApps.map(app => `
-                        <li class="text-sm text-blue-300}">${app.uri} can be brokered by 
-                          <a href="?appId=${app.appId}" target="_self" class="text-primary hover:underline">
-                          ${app.appName ? `${app.appName}` : `Unknown app`}
-                          (${app.appId})
+                        <li class="text-sm text-blue-300}">${escapeHtml(app.uri)} can be brokered by 
+                          <a href="?appId=${escapeHtml(app.appId)}" target="_self" class="text-primary hover:underline">
+                          ${app.appName ? escapeHtml(app.appName) : `Unknown app`}
+                          (${escapeHtml(app.appId)})
                         </a>
                         </li>
                       `).join('')}
@@ -806,7 +846,7 @@
 
                 card.innerHTML = `
                   <div class="flex justify-between items-start mb-2">
-                    <h2 class="text-xl font-bold text-primary">${details.name}</h2>
+                    <h2 class="text-xl font-bold text-primary">${escapeHtml(details.name)}</h2>
                   </div>
                   <div class="flex flex-wrap gap-2 mb-4">
                     <span class="text-xs py-1 px-2 ${details.foci ? 'bg-green-900 text-green-400' : 'bg-yellow-900 text-yellow-400'} rounded-full">
@@ -830,7 +870,7 @@
                   </div>
 
                   <p class="text-sm text-gray-400 mb-4 flex items-center gap-2">App ID: 
-  <span class="select-all app-id-span">${appId}</span>
+  <span class="select-all app-id-span">${escapeHtml(appId)}</span>
   <button class="copy-appid-btn bg-gray-700 hover:bg-primary text-primary hover:text-gray-900 rounded-full p-1" 
           title="Copy App ID" 
           data-appid="${appId}">
@@ -859,11 +899,11 @@
                         <div class="mb-2 p-2 bg-gray-700 rounded">
                           <div class="flex justify-between">
                             <span class="font-medium text-primary text-sm">
-                              ${resourceMap[resource]?.displayName || 'Unknown Resource'}
+                              ${escapeHtml(resourceMap[resource]?.displayName) || 'Unknown Resource'}
                             </span>
                             <span class="text-xs text-gray-400">${scopes.length} scope${scopes.length !== 1 ? 's' : ''}</span>
                           </div>
-                          <span class="text-xs text-gray-400 truncate block">${resource}</span>
+                          <span class="text-xs text-gray-400 truncate block">${escapeHtml(resource)}</span>
                         </div>
                       `).join('')}
                       ${sortedResources.length > 5 ? 

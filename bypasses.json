@@ -27,7 +27,7 @@
             }
         ],
         "CurrentState": "Active",
-        "Description": "Conditional Access policies are not applied to the listed resources. This is considered by-design by Microsoft: <b><i>[...]Each accessed resource provides read-only, non-sensitive tenant data and serves as a preliminary step before reaching the final resource.[...]</i></b> - MSRC",
+        "Description": "Conditional Access policies are not applied to the listed resources. This is considered by-design by Microsoft: '[...]Each accessed resource provides read-only, non-sensitive tenant data and serves as a preliminary step before reaching the final resource.[...]' - MSRC",
         "Attribution": [
             "https://x.com/fabian_bader"
         ]
