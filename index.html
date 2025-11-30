@@ -202,12 +202,53 @@
 
           // Create a map of bypasses by AppID for easy lookup
           const bypassesMap = {};
+          const wildcardBypasses = []; // Store wildcard bypasses separately
+
           bypasses.forEach(bypass => {
-            if (!bypassesMap[bypass.AppID]) {
-              bypassesMap[bypass.AppID] = [];
+            if (bypass.AppID === '*') {
+              // Store wildcard bypasses for later processing
+              wildcardBypasses.push(bypass);
+            } else {
+              if (!bypassesMap[bypass.AppID]) {
+                bypassesMap[bypass.AppID] = [];
+              }
+              bypassesMap[bypass.AppID].push(bypass);
             }
-            bypassesMap[bypass.AppID].push(bypass);
           });
+
+          // Process wildcard bypasses for each app
+          if (wildcardBypasses.length > 0) {
+            Object.entries(data.apps).forEach(([appId, appDetails]) => {
+              wildcardBypasses.forEach(wildcardBypass => {
+                // Check if this app has any of the resources specified in the wildcard bypass
+                const hasMatchingResource = wildcardBypass.ResourcesAndScopes.some(resourceScope => {
+                  const resourceId = Object.keys(resourceScope)[0];
+                  const requiredScopes = resourceScope[resourceId];
+                  
+                  // Check if the app has this resource
+                  if (!appDetails.scopes[resourceId]) {
+                    return false;
+                  }
+                  
+                  // Check if the app has any of the required scopes for this resource
+                  const appScopes = appDetails.scopes[resourceId];
+                  return requiredScopes.some(requiredScope => {
+                    // Handle space-separated scopes in the required scope string
+                    const scopeList = requiredScope.split(' ');
+                    return scopeList.some(scope => appScopes.includes(scope.trim()));
+                  });
+                });
+                
+                if (hasMatchingResource) {
+                  // Add this wildcard bypass to the app
+                  if (!bypassesMap[appId]) {
+                    bypassesMap[appId] = [];
+                  }
+                  bypassesMap[appId].push(wildcardBypass);
+                }
+              });
+            });
+          }
 
           // Create resourceMap using resourceId as key
           const resourceMap = {};
