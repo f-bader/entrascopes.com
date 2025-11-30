@@ -28,6 +28,9 @@
         ],
         "CurrentState": "Active",
         "Description": "Conditional Access policies are not applied to the listed resources. This is considered by-design by Microsoft: '[...]Each accessed resource provides read-only, non-sensitive tenant data and serves as a preliminary step before reaching the final resource.[...]' - MSRC",
+        "ReadMore": [
+            "http://cloudbrothers.info/en/conditional-access-bypasses/"
+        ],
         "Attribution": [
             "https://x.com/fabian_bader"
         ]
@@ -47,6 +50,9 @@
         ],
         "CurrentState": "Active",
         "Description": "You can request an access token for Device Management Service without having a compliant device. There is currently no known attack vector. Considered by-design by Microsoft.",
+        "ReadMore": [
+            "http://cloudbrothers.info/en/conditional-access-bypasses/"
+        ],
         "Attribution": [
             "https://x.com/fabian_bader"
         ]
