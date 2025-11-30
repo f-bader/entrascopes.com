@@ -1,5 +1,57 @@
 [
     {
+        "AppID": "*",
+        "ProtectionBypass": [
+            "All"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "26a4ae64-5862-427f-a9b0-044e62572a4f": [
+                    "user_impersonation"
+                ],
+                "04436913-cf0d-4d2a-9cc6-2ffe7f1d3d1c": [
+                    "user_impersonation"
+                ],
+                "0a5f63c0-b750-4f38-a71c-4fc0d58b89e2": [
+                    "Intune.MAM.Registrations.Read.All Intune.MAM.Registrations.Write.All"
+                ],
+                "1f5530b3-261a-47a9-b357-ded261e17918": [
+                    "user_impersonation"
+                ],
+                "c2ada927-a9e2-4564-aae2-70775a2fa0af": [
+                    "user_impersonation"
+                ],
+                "ff9ebd75-fe62-434a-a6ce-b3f0a8592eaf": [
+                    "user_impersonation"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "Conditional Access policies are not applied to the listed resources. This is considered by-design by Microsoft: <b><i>[...]Each accessed resource provides read-only, non-sensitive tenant data and serves as a preliminary step before reaching the final resource.[...]</i></b> - MSRC",
+        "Attribution": [
+            "https://x.com/fabian_bader"
+        ]
+    },
+    {
+        "AppID": "1fec8e78-bce4-4aaf-ab1b-5451cc387264",
+        "ProtectionBypass": [
+            "CompliantDevice"
+        ],
+        "ResourcesAndScopes": [
+            {
+                "cb58b23f-9a26-4ef4-9e9e-ca08567ef56c": [
+                    "DeviceManagement.Read",
+                    "user_impersonation"
+                ]
+            }
+        ],
+        "CurrentState": "Active",
+        "Description": "You can request an access token for Device Management Service without having a compliant device. There is currently no known attack vector. Considered by-design by Microsoft.",
+        "Attribution": [
+            "https://x.com/fabian_bader"
+        ]
+    },
+    {
         "AppID": "4813382a-8fa7-425e-ab75-3b753aab3abb",
         "ProtectionBypass": [
             "CompliantDevice"
