@@ -1,0 +1,27 @@
+name: Update base data
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - "main"
+    paths:
+      - "firstpartyscopes.json"
+
+jobs:
+  pull-external-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v5
+
+      - name: Update Auth Code Fix data
+        shell: pwsh
+        run: |
+          ./.github/scripts/UpdateAuthCodetFix.ps1
+
+      - name: Commit updated data to repo
+        uses: stefanzweifel/git-auto-commit-action@v5

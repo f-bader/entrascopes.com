@@ -98,6 +98,15 @@
                     multiple="multiple">
             </select>
           </div>
+          <div class="space-y-1">
+            <label for="authcodeFixFilter" class="block text-sm font-medium text-gray-300">AuthCodeFix/ConsentFix</label>
+            <select id="authcodeFixFilter" 
+                    class="p-2 w-full border rounded bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-primary focus:border-primary">
+              <option value="">All</option>
+              <option value="true">Vulnerable</option>
+              <option value="false">Not Vulnerable</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -177,6 +186,7 @@
             clientType: params.get('clientType'),
             naa: params.get('naa'),
             bypass: params.get('bypass'),
+            authcodeFix: params.get('authcodeFix'),
             resources: params.getAll('resource'),
             scopes: params.getAll('scope')
           };
@@ -192,6 +202,7 @@
           if (clientTypeFilter.value) params.append('clientType', clientTypeFilter.value);
           if (naaFilter.value) params.append('naa', naaFilter.value);
           if (bypassFilter.value) params.append('bypass', bypassFilter.value);
+          if (authcodeFixFilter.value) params.append('authcodeFix', authcodeFixFilter.value);
           
           // Add selected app IDs, resources, and scopes
           const selectedAppIds = $('#appIdFilter').val() || [];
@@ -213,17 +224,22 @@
         }
 
         try {
-          const [scopesResponse, resourcesResponse, bypassesResponse, classificationResponse] = await Promise.all([
+          const [scopesResponse, resourcesResponse, bypassesResponse, classificationResponse, authcodeFixResponse] = await Promise.all([
             fetch('firstpartyscopes.json'),
             fetch('resources.json'),
             fetch('bypasses.json'),
-            fetch('Classification_AppRoles.json')
+            fetch('Classification_AppRoles.json'),
+            fetch('authcodefix.json')
           ]);
           
           const data = await scopesResponse.json();
           const resources = await resourcesResponse.json();
           const bypasses = await bypassesResponse.json();
           const classifications = await classificationResponse.json();
+          const authcodeFixData = await authcodeFixResponse.json();
+          
+          // Create a set of App IDs that need consent fix
+          const authcodeFixAppIds = new Set(authcodeFixData.map(item => item.AppId));
           
           // Create a map for easy lookup of classifications by AppRoleId
           const classificationsMap = {};
@@ -332,6 +348,7 @@
           const resourceFilter = document.getElementById('resourceFilter');
           const scopeFilter = document.getElementById('scopeFilter');
           const bypassFilter = document.getElementById('bypassFilter');
+          const authcodeFixFilter = document.getElementById('authcodeFixFilter');
           const clientTypeFilter = document.getElementById('clientTypeFilter');
           const naaFilter = document.getElementById('naaFilter');
 
@@ -437,6 +454,10 @@
           if (urlParams.bypass) {
             bypassFilter.value = urlParams.bypass;
           }
+
+          if (urlParams.authcodeFix) {
+            authcodeFixFilter.value = urlParams.authcodeFix;
+          }
           
           if (urlParams.clientType) {
             clientTypeFilter.value = urlParams.clientType;
@@ -492,6 +513,11 @@
           });
           
           bypassFilter.addEventListener('change', () => {
+            displayApps();
+            updateUrlWithFilters();
+          });
+
+          authcodeFixFilter.addEventListener('change', () => {
             displayApps();
             updateUrlWithFilters();
           });
@@ -787,6 +813,7 @@
             const selectedResources = $('#resourceFilter').val() || [];
             const selectedScopes = $('#scopeFilter').val() || [];
             const bypassValue = bypassFilter.value;
+            const authcodeFixValue = authcodeFixFilter.value;
 
             appsContainer.innerHTML = '';
             let matchCount = 0;
@@ -818,8 +845,13 @@
               const matchesBypass = bypassValue === '' || 
                                    (bypassValue === 'true' && hasBypass) || 
                                    (bypassValue === 'false' && !hasBypass);
+              
+              const hasauthcodeFix = authcodeFixAppIds.has(appId);
+              const matchesauthcodeFix = authcodeFixValue === '' || 
+                                       (authcodeFixValue === 'true' && hasauthcodeFix) || 
+                                       (authcodeFixValue === 'false' && !hasauthcodeFix);
 
-              if (matchesSearch && matchesFoci && matchesClientType && matchesNaa && matchesAppId && matchesResource && matchesScope && matchesBypass) {
+              if (matchesSearch && matchesFoci && matchesClientType && matchesNaa && matchesAppId && matchesResource && matchesScope && matchesBypass && matchesauthcodeFix) {
                 matchCount++;
                 const card = document.createElement('div');
                 card.className = 'app-card transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01] hover:-translate-y-0.5';
@@ -964,6 +996,7 @@
                 $('#resourceFilter').val(null).trigger('change');
                 $('#scopeFilter').val(null).trigger('change');
                 bypassFilter.value = '';
+                authcodeFixFilter.value = '';
                 displayApps();
                 // Clear URL parameters
                 window.history.pushState({}, '', window.location.pathname);
