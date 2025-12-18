@@ -1,4 +1,4 @@
-name: Update base data
+name: Update AuthCodeFix/ConsentFix data
 
 on:
   workflow_dispatch:
