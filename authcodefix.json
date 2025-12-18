@@ -4,5 +4,905 @@
     "AppName": "Microsoft Azure CLI",
     "AffectedReferer": "http://localhost",
     "Reason": "Local host referer"
+  },
+  {
+    "AppId": "04f0c124-f2bc-4f59-8241-bf6df9866bbd",
+    "AppName": "Visual Studio",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "05c7489d-bc20-4405-a3b4-cf0743f090ca",
+    "AppName": "PlacesCmdletModule",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "12128f48-ec9e-42f0-b203-ea49fb6af367",
+    "AppName": "MS Teams Powershell Cmdlets",
+    "AffectedReferer": "https://teamscmdlet.microsoft.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "12128f48-ec9e-42f0-b203-ea49fb6af367",
+    "AppName": "MS Teams Powershell Cmdlets",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "https://ai-stg.microsoft.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "https://localhost:3000/internal/auth",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "https://staging.copilot.com/conversations",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "https://localhost:1881",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "14638111-3389-403d-b206-a6a71d9f8f16",
+    "AppName": "Copilot App",
+    "AffectedReferer": "https://localhost:3000",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "1950a258-227b-4e31-a9cf-717495945fc2",
+    "AppName": "Microsoft Azure PowerShell",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "1fec8e78-bce4-4aaf-ab1b-5451cc387264",
+    "AppName": "Microsoft Teams",
+    "AffectedReferer": "https://ssauth.skype.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "23d8f6bd-1eb0-4cc2-a08c-7bf525c67bcd",
+    "AppName": "Power BI PowerShell",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "2ad88395-b77d-4561-9441-d0e40824f9bc",
+    "AppName": "Dynamics 365 Development Tools",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "2bc7f11e-e2f4-4a09-b5e0-6988f60a8b0f",
+    "AppName": "Azure Connected Machine Agent",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "2c1229aa-16c5-4ff5-b46b-4f7fe2a2a9c8",
+    "AppName": "ODBC Client Driver",
+    "AffectedReferer": "https://sqlaad/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "2e246ed0-1ec0-4526-a2de-9e9ff9468494",
+    "AppName": "Microsoft Power Automate SDX Plugin",
+    "AffectedReferer": "https://localhost:3000/login.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "2e246ed0-1ec0-4526-a2de-9e9ff9468494",
+    "AppName": "Microsoft Power Automate SDX Plugin",
+    "AffectedReferer": "https://localhost:3000/index2.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "2e246ed0-1ec0-4526-a2de-9e9ff9468494",
+    "AppName": "Microsoft Power Automate SDX Plugin",
+    "AffectedReferer": "https://local.flow.microsoft.com:44300/widgethosts/excel",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "2fd908ad-0664-4344-b9be-cd3e8b574c38",
+    "AppName": "Microsoft.Data.SqlClient",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://app.local.powerbi.com/TeamsLoginResult",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://app.local.powerbi.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://msit.local.powerbi.com/TeamsLoginResult",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://msit.local.powerbi.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://dxt.local.powerbi.com/TeamsLoginResult",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://dxt.local.powerbi.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://daily.local.powerbi.com/TeamsLoginResult",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "30e8c77f-acd9-453f-958a-82baf329c73d",
+    "AppName": "PowerBI Teams Extension",
+    "AffectedReferer": "https://daily.local.powerbi.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "36c50012-7aa1-4bff-9ff8-51c75190ae4d",
+    "AppName": "Trident-Spark-IDE",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "3a4d129e-7f50-4e0d-a7fd-033add0a29f4",
+    "AppName": "Enterprise Dashboard Project",
+    "AffectedReferer": "https://localhost.msn.com",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "3d5cffa9-04da-4657-8cab-c7f074657cad",
+    "AppName": "M365 Commerce Client",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "3d5cffa9-04da-4657-8cab-c7f074657cad",
+    "AppName": "M365 Commerce Client",
+    "AffectedReferer": "http://localhost/m365/commerce",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "41839ce3-4041-4bac-8c17-0941f25d7aaf",
+    "AppName": "Dynamics 365 Business Central Developer",
+    "AffectedReferer": "https://developer.businesscentral.dynamics.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "4906f920-9f94-4f14-98aa-8456dd5f78a8",
+    "AppName": "Dynamics CRM Unified Service Desk",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "4d2f5175-f06b-49e2-9f4a-8e614a8abc03",
+    "AppName": "Microsoft Exchange Hybrid Wizard",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "51f81489-12ee-4a9e-aaae-a2591f45987d",
+    "AppName": "Dynamics 365 Example Client Application",
+    "AffectedReferer": "https://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "51f81489-12ee-4a9e-aaae-a2591f45987d",
+    "AppName": "Dynamics 365 Example Client Application",
+    "AffectedReferer": "https://callbackurl",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "51f81489-12ee-4a9e-aaae-a2591f45987d",
+    "AppName": "Dynamics 365 Example Client Application",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "57336123-6e14-4acc-8dcf-287b6088aa28",
+    "AppName": "Microsoft Whiteboard Client",
+    "AffectedReferer": "https://dev.whiteboard.microsoft.com/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "57fcbcfa-7cee-4eb1-8b25-12d2030b4ee0",
+    "AppName": "Microsoft Flow Mobile PROD-GCCH-CN",
+    "AffectedReferer": "https://sso",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "5c17a0cf-5493-4b86-b23d-dabc1cc46f5a",
+    "AppName": "Minit Desktop for Windows",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "5eb6d742-390a-4eb3-b862-21d0166c54cf",
+    "AppName": "M365 Dev Portals - Authentication flow",
+    "AffectedReferer": "https://localhost:20444/en-us/microsoft-365",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "5eb6d742-390a-4eb3-b862-21d0166c54cf",
+    "AppName": "M365 Dev Portals - Authentication flow",
+    "AffectedReferer": "https://localhost:20444/en-us/microsoft-365/",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "5eb6d742-390a-4eb3-b862-21d0166c54cf",
+    "AppName": "M365 Dev Portals - Authentication flow",
+    "AffectedReferer": "https://localhost:20444/en-us/microsoft-365/profile",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "5eb6d742-390a-4eb3-b862-21d0166c54cf",
+    "AppName": "M365 Dev Portals - Authentication flow",
+    "AffectedReferer": "https://localhost:20444/en-us/substrate",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "5eb6d742-390a-4eb3-b862-21d0166c54cf",
+    "AppName": "M365 Dev Portals - Authentication flow",
+    "AffectedReferer": "https://localhost:20444/en-us/internalportals/tools/office/odxiptstgraph",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "60c8bde5-3167-4f92-8fdb-059f6176dc0f",
+    "AppName": "Enterprise Roaming and Backup",
+    "AffectedReferer": "https://acb0a880-4c99-473a-89cc-d30ed9c0cec1/redir",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "655db33f-4580-4e63-bad1-4618764badb9",
+    "AppName": "Dynamics 365 Guides",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "67ae0dc4-5f97-4c38-b132-65d38bbab8d1",
+    "AppName": "Dynamics AX Workflow Editor",
+    "AffectedReferer": "https://dynamicsaxworkfloweditor",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "7ea7c24c-b1f6-4a20-9d11-9ae12e9e7ac0",
+    "AppName": "Teams-Toolkit",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "7ea7c24c-b1f6-4a20-9d11-9ae12e9e7ac0",
+    "AppName": "Teams-Toolkit",
+    "AffectedReferer": "http://localhost:8400",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "7f67af8a-fedc-4b08-8b4e-37c4d127b6cf",
+    "AppName": "Power BI Desktop",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "7f98cb04-cd1e-40df-9140-3bf7e2cea4db",
+    "AppName": "JDBC Client Driver",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "80331ee5-4436-4815-883e-93bc833a9a15",
+    "AppName": "Universal Print Connector",
+    "AffectedReferer": "https://UniversalPrintConnector",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "80faf920-1908-4b52-b5ef-a8e7bedfc67a",
+    "AppName": "Azure Kubernetes Service AAD Client",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "872cd9fa-d31f-45e0-9eab-6e460a02d1f1",
+    "AppName": "Visual Studio - Legacy",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "8ec6bc83-69c8-4392-8f08-b3c986009232",
+    "AppName": "Microsoft Teams-T4L",
+    "AffectedReferer": "https://devsecure.skype.net/ui/en/dataexport",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "90f610bf-206d-4950-b61d-37fa6fd1b224",
+    "AppName": "Aadrm Admin Powershell",
+    "AffectedReferer": "https://aadrm.com/adminpowershell",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9199bf20-a13f-4107-85dc-02114787ef48",
+    "AppName": "One Outlook Web",
+    "AffectedReferer": "https://exchangelabs.live-int.com/mail/oauthRedirect.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9199bf20-a13f-4107-85dc-02114787ef48",
+    "AppName": "One Outlook Web",
+    "AffectedReferer": "https://exchangelabs.live-int.com/mail/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://azml-prod-westeurope-azhub-4.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://azml-prod-southcentralus-azhub-8.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-uksouth-cpml-lnx-7.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus3-cpml-lnx-1.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-centralus-cpml-lnx-4.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-2.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southindia-cpml-lnx-100.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southindia-cpml-lnx-100.southindia.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-italynorth-cpml-lnx-3.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-36.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-9.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus2-cpml-lnx-3.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus3-cpml-lnx-8.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-6.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-18.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-19.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-40.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-northcentralus-cpml-lnx-3.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-norwayeast-cpml-lnx-1.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-29.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus3-cpml-lnx-13.westus3.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus3-cpml-lnx-13.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-15.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-24.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-14.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-14.southcentralus.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-12.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-12.southcentralus.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-11.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-11.southcentralus.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-21.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-19.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-13.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-12.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-11.westus2.cloudapp.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-11.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-13.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-22.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-20.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-9.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-eastus-cpml-lnx-10.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-southcentralus-cpml-lnx-5.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9581bc0e-c952-4fd3-8d99-e777877718b1",
+    "AppName": "Azure Singularity",
+    "AffectedReferer": "https://aisc-prod-westus2-cpml-lnx-5.federation.singularity.azure.com/auth/aad/callback",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9bc3ab49-b65d-410a-85ad-de819febfddc",
+    "AppName": "Microsoft SharePoint Online Management Shell",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "9bc3ab49-b65d-410a-85ad-de819febfddc",
+    "AppName": "Microsoft SharePoint Online Management Shell",
+    "AffectedReferer": "https://oauth.spops.microsoft.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "9cee029c-6210-4654-90bb-17e6e9d36617",
+    "AppName": "Power Platform CLI - pac",
+    "AffectedReferer": "https://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "9cee029c-6210-4654-90bb-17e6e9d36617",
+    "AppName": "Power Platform CLI - pac",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "a306baf0-5ad8-4f6f-babf-6a286b0142ba",
+    "AppName": "Azure Data Factory",
+    "AffectedReferer": "https://datafactory-int.azure.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "a306baf0-5ad8-4f6f-babf-6a286b0142ba",
+    "AppName": "Azure Data Factory",
+    "AffectedReferer": "https://datafactory.azure.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "a306baf0-5ad8-4f6f-babf-6a286b0142ba",
+    "AppName": "Azure Data Factory",
+    "AffectedReferer": "https://datafactory-int.azure.com/oauthredirect",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "a306baf0-5ad8-4f6f-babf-6a286b0142ba",
+    "AppName": "Azure Data Factory",
+    "AffectedReferer": "https://datafactory.azure.com/oauthredirect",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "a672d62c-fc7b-4e81-a576-e60dc46e951d",
+    "AppName": "Microsoft Power Query for Excel",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "a672d62c-fc7b-4e81-a576-e60dc46e951d",
+    "AppName": "Microsoft Power Query for Excel",
+    "AffectedReferer": "https://de-users-preview.sqlazurelabs.com/account/reply/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "a69788c6-1d43-44ed-9ca3-b83e194da255",
+    "AppName": "Azure Data Studio",
+    "AffectedReferer": "http://localhost/redirect",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "a69788c6-1d43-44ed-9ca3-b83e194da255",
+    "AppName": "Azure Data Studio",
+    "AffectedReferer": "http://localhost/redirect/",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "a7d8b517-ace2-4c65-b0b7-38f9a2a8e9d8",
+    "AppName": "Centralized Deployment PowerShell Tools",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "a94f9c62-97fe-4d19-b06d-472bed8d2bcf",
+    "AppName": "Azure SQL Database and Data Warehouse",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "aad98258-6bb0-44ed-a095-21506dfb68fe",
+    "AppName": "Universal Print PS Module",
+    "AffectedReferer": "https://MicrosoftPrintPSModule",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "aba285d5-d9f3-427b-a994-e9deb4567639",
+    "AppName": "Microsoft SQL Server",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "aebc6443-996d-45c2-90f0-388ff96faa56",
+    "AppName": "Visual Studio Code",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "c00e9d32-3c8d-4a7d-832b-029040e7db99",
+    "AppName": "Microsoft Azure Information Protection",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "cf8f0657-7610-4b05-8723-a4322ae045c6",
+    "AppName": "Microsoft Dynamics Document Routing Agent",
+    "AffectedReferer": "https://dynamicsdocumentroutingagent",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "cf8f0657-7610-4b05-8723-a4322ae045c6",
+    "AppName": "Microsoft Dynamics Document Routing Agent",
+    "AffectedReferer": "https://dynamicsdocumentroutingagent/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d5a56ea4-7369-46b8-a538-c370805301bf",
+    "AppName": "Azure Artifacts",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.cn/staticsb/statics/latest/auth/auth-redirect-blank.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.com/staticsb/statics/latest/auth/auth-redirect-blank.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.cn/staticsb/statics/latest/auth/auth-redirect.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.com/staticsb/statics/latest/auth/auth-redirect.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.cn/staticsb/statics/latest/0/auth/auth-redirect.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://www.microsoftstart.msn.com/staticsb/statics/latest/0/auth/auth-redirect.html",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com/staticsb/statics/auth/auth-redirect-blank.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com:8080/staticsb/statics/0/auth/auth-redirect.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com/staticsb/statics/0/auth/auth-redirect.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com/staticsb/statics/auth/auth-redirect.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com:8080/staticsb/statics/auth/auth-redirect-blank.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com:8080/staticsb/statics/auth/auth-redirect.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://localhost.msn.com",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "d7b530a4-7680-4c23-a8bf-c52c121d2e87",
+    "AppName": "Microsoft Edge Enterprise New Tab Page",
+    "AffectedReferer": "https://local.msn.com",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "da7b2a48-99e4-4e2b-a492-06d19a39ca57",
+    "AppName": "XSync Server Agent",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "db465503-d247-463e-8a13-95889346b742",
+    "AppName": "OLEDB Client Driver",
+    "AffectedReferer": "https://sqlaad/",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "db662dc1-0cfe-4e1c-a843-19a68e65be58",
+    "AppName": "KustoClient",
+    "AffectedReferer": "https://microsoft/kustoclient",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "db662dc1-0cfe-4e1c-a843-19a68e65be58",
+    "AppName": "KustoClient",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "e68ae87f-5acd-403b-a8f5-40a0dd42f6b5",
+    "AppName": "Dynamics 365 Business Central Mobile Client",
+    "AffectedReferer": "https://projectmadeiraapp",
+    "Reason": "Non-publicly resolvable domain"
+  },
+  {
+    "AppId": "ea0616ba-638b-4df5-95b9-636659ae5121",
+    "AppName": "Power BI Gateway",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "eea619ad-603a-4b03-a386-860fcc7410d1",
+    "AppName": "Microsoft Mesh",
+    "AffectedReferer": "https://localhost:3000",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "eea619ad-603a-4b03-a386-860fcc7410d1",
+    "AppName": "Microsoft Mesh",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "fa3d58b1-f3bc-489e-954e-119d58a29bae",
+    "AppName": "Office Scripts",
+    "AffectedReferer": "brk-multihub://localhost:3003",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "fa3d58b1-f3bc-489e-954e-119d58a29bae",
+    "AppName": "Office Scripts",
+    "AffectedReferer": "https://localhost:3003/login.html",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "fb78d390-0c51-40cd-8e17-fdbfab77341b",
+    "AppName": "Microsoft Exchange REST API Based Powershell",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
+  },
+  {
+    "AppId": "fca5a20d-55aa-4395-9c2f-c6147f3c9ffa",
+    "AppName": "Microsoft Remote Assist",
+    "AffectedReferer": "http://localhost",
+    "Reason": "Local host referer"
   }
 ]
