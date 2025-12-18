@@ -15,8 +15,15 @@ $dnsCache = @{}
 foreach ($appId in $json.apps.PSObject.Properties.Name) {
     $app = $json.apps.$appId
     
+    # Skip if non public client
+    if (-not $app.public_client) {
+        Write-Verbose "Skipping non-public client: $appId"
+        continue
+    }
+
     # Skip if no redirect_uris
     if (-not $app.redirect_uris) {
+        Write-Verbose "Skipping app with no redirect URIs: $appId"
         continue
     }
     
@@ -24,19 +31,11 @@ foreach ($appId in $json.apps.PSObject.Properties.Name) {
     foreach ($redirectUri in $app.redirect_uris) {
         $affectedReferer = $null
         
-        # Criterion 1: Check for localhost referer
+        # Check for localhost referer
         if ($redirectUri -match 'localhost') {
             $affectedReferer = $redirectUri
         }
-        
-        # Criterion 2: Check for non-http/https schema that only works on mobile
-        # This includes: msauth://, x-msauth-*, msal*, msauth.com.*, ms-appx-web://, ms-app://, urn:, etc.
-        elseif ( $redirectUri -match '^(?!https?://)' ) {
-            $affectedReferer = $redirectUri
-        }
-        
-        # Criterion 3: Check if domain is not publicly resolvable
-        # Extract domain/hostname from the URI
+        # Check if domain is not publicly resolvable
         else {
             try {
                 if ($redirectUri -match '^https?://') {
@@ -60,16 +59,14 @@ foreach ($appId in $json.apps.PSObject.Properties.Name) {
                             # Domain is publicly resolvable, cache as true and skip
                             $dnsCache[$RedirectHost] = $true
                             continue
-                        }
-                        catch {
+                        } catch {
                             # Domain is not publicly resolvable, cache as false
                             $dnsCache[$RedirectHost] = $false
                             $affectedReferer = $redirectUri
                         }
                     }
                 }
-            }
-            catch {
+            } catch {
                 Write-Verbose "Failed to parse URI: $redirectUri - $($_.Exception.Message)"
                 # If we can't parse it, skip
                 continue
@@ -79,16 +76,14 @@ foreach ($appId in $json.apps.PSObject.Properties.Name) {
         # If any criterion was met, add to results
         if ($affectedReferer) {
             $results += @{
-                AppId = $appId
-                AppName = $app.name
+                AppId           = $appId
+                AppName         = $app.name
                 AffectedReferer = $affectedReferer
-                Reason = if ($affectedReferer -match 'localhost') {
+                Reason          = if ($affectedReferer -match 'localhost') {
                     "Local host referer"
-                }
-                elseif ($affectedReferer -match '^(?!https?://)' -and ($affectedReferer -match 'msauth|x-msauth|msal|ms-appx|ms-app|urn:')) {
+                } elseif ($affectedReferer -match '^(?!https?://)' -and ($affectedReferer -match 'msauth|x-msauth|msal|ms-appx|ms-app|urn:')) {
                     "Non-standard schema (mobile only)"
-                }
-                else {
+                } else {
                     "Non-publicly resolvable domain"
                 }
             }
@@ -101,8 +96,8 @@ $jsonOutput = $results | ConvertTo-Json -Depth 10
 Write-Output $jsonOutput
 
 # Optionally save to file
-$outputPath = Join-Path -Path $PSScriptRoot -ChildPath "..\..\constentfix.json"
+$outputPath = Join-Path -Path $PSScriptRoot -ChildPath "..\..\authcodefix.json"
 $jsonOutput | Set-Content -Path $outputPath -Encoding UTF8
 
 Write-Host "Results saved to: $outputPath"
-Write-Host "Total affected apps found: $($results.Count)"
+Write-Host "Total affected redirects found: $($results.Count)"
