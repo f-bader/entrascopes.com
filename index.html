@@ -30,7 +30,28 @@
 
       <!-- Filter Section -->
       <div class="mb-8 p-4 bg-gray-800 bg-opacity-50 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold mb-4 text-primary">Filters</h2>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+          <h2 class="text-xl font-semibold text-primary">Filters</h2>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <div id="compareSelection" class="hidden text-sm text-gray-300 text-center sm:text-left">
+              <span id="compareCount">0</span> of 2 apps selected
+            </div>
+            <button id="toggleCompareMode" class="px-6 py-3 sm:px-4 sm:py-2 bg-primary text-gray-900 rounded-lg hover:bg-opacity-90 transition flex items-center justify-center gap-2 font-semibold touch-manipulation">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 110-2h4a1 1 0 011 1v4a1 1 0 11-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 112 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 110 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 110-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" />
+              </svg>
+              <span id="compareModeText">Compare Apps</span>
+            </button>
+          </div>
+        </div>
+        <div id="compareInstructions" class="hidden mb-4 p-3 bg-blue-900 bg-opacity-30 border border-blue-700 rounded-lg">
+          <p class="text-sm text-blue-300">
+            <svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            Tap the "Select" button on two apps to compare them side by side
+          </p>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           <div class="space-y-1">
             <label for="searchInput" class="block text-sm font-medium text-gray-300">Search</label>
@@ -145,6 +166,10 @@
     </div>
 
     <script>
+      // Comparison mode state
+      let compareMode = false;
+      let selectedAppsForComparison = [];
+
       // HTML escaping function to prevent XSS
       function escapeHtml(text) {
         if (text === null || text === undefined) return '';
@@ -542,6 +567,311 @@
             updateUrlWithFilters();
           });
 
+          // Compare mode toggle
+          const toggleCompareBtn = document.getElementById('toggleCompareMode');
+          const compareModeText = document.getElementById('compareModeText');
+          const compareSelection = document.getElementById('compareSelection');
+          const compareCount = document.getElementById('compareCount');
+          const compareInstructions = document.getElementById('compareInstructions');
+
+          toggleCompareBtn.addEventListener('click', () => {
+            compareMode = !compareMode;
+            selectedAppsForComparison = [];
+            
+            if (compareMode) {
+              compareModeText.textContent = 'Cancel Compare';
+              toggleCompareBtn.classList.remove('bg-primary', 'text-gray-900');
+              toggleCompareBtn.classList.add('bg-red-600', 'text-white');
+              compareSelection.classList.remove('hidden');
+              compareInstructions.classList.remove('hidden');
+              updateCompareCount();
+            } else {
+              compareModeText.textContent = 'Compare Apps';
+              toggleCompareBtn.classList.remove('bg-red-600', 'text-white');
+              toggleCompareBtn.classList.add('bg-primary', 'text-gray-900');
+              compareSelection.classList.add('hidden');
+              compareInstructions.classList.add('hidden');
+            }
+            
+            displayApps();
+          });
+
+          function updateCompareCount() {
+            compareCount.textContent = selectedAppsForComparison.length;
+          }
+
+          function toggleAppSelection(appId) {
+            const index = selectedAppsForComparison.indexOf(appId);
+            if (index === -1) {
+              if (selectedAppsForComparison.length < 2) {
+                selectedAppsForComparison.push(appId);
+              }
+            } else {
+              selectedAppsForComparison.splice(index, 1);
+            }
+            updateCompareCount();
+            
+            // If two apps are selected, show the comparison
+            if (selectedAppsForComparison.length === 2) {
+              displayComparison();
+            } else {
+              displayApps();
+            }
+          }
+
+          function displayComparison() {
+            const app1Id = selectedAppsForComparison[0];
+            const app2Id = selectedAppsForComparison[1];
+            const app1Details = data.apps[app1Id];
+            const app2Details = data.apps[app2Id];
+            
+            appsContainer.innerHTML = '';
+            appsContainer.className = 'full-width-container';
+            
+            const comparisonCard = document.createElement('div');
+            comparisonCard.className = 'w-full p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-700';
+            
+            // Get bypasses for both apps
+            const app1Bypasses = bypassesMap[app1Id] || [];
+            const app2Bypasses = bypassesMap[app2Id] || [];
+            
+            // Get NAA information
+            const app1NaaInfo = getNaaInfo(app1Details.redirect_uris);
+            const app2NaaInfo = getNaaInfo(app2Details.redirect_uris);
+            
+            // Calculate resource and scope counts
+            const app1Resources = Object.keys(app1Details.scopes);
+            const app2Resources = Object.keys(app2Details.scopes);
+            const app1TotalScopes = Object.values(app1Details.scopes).flat().length;
+            const app2TotalScopes = Object.values(app2Details.scopes).flat().length;
+            
+            // Find common and unique resources
+            const commonResources = app1Resources.filter(r => app2Resources.includes(r));
+            const app1UniqueResources = app1Resources.filter(r => !app2Resources.includes(r));
+            const app2UniqueResources = app2Resources.filter(r => !app1Resources.includes(r));
+            
+            comparisonCard.innerHTML = `
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-primary">App Comparison</h2>
+                <button id="backFromComparison" class="px-4 py-2 bg-gray-700 text-gray-100 rounded hover:bg-gray-600 transition flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                  </svg>
+                  Back to Selection
+                </button>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- App 1 -->
+                <div class="p-4 bg-gray-700 bg-opacity-50 rounded-lg">
+                  <h3 class="text-xl font-bold text-primary mb-2">${escapeHtml(app1Details.name)}</h3>
+                  <p class="text-xs text-gray-400 mb-4 break-all">${escapeHtml(app1Id)}</p>
+                  
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    ${app1Details.foci ? '<span class="text-xs py-1 px-2 bg-green-900 text-green-400 rounded-full">FOCI</span>' : ''}
+                    ${app1Details.public_client ? '<span class="text-xs py-1 px-2 bg-purple-900 text-purple-300 rounded-full">Public Client</span>' : '<span class="text-xs py-1 px-2 bg-gray-900 text-gray-400 rounded-full">Confidential Client</span>'}
+                    ${app1NaaInfo.hasNaa ? '<span class="text-xs py-1 px-2 bg-blue-900 text-blue-300 rounded-full">BroCI/NAA</span>' : ''}
+                    ${app1Bypasses.length > 0 ? '<span class="text-xs py-1 px-2 bg-yellow-900 text-yellow-300 rounded-full">CA Bypass</span>' : ''}
+                    ${authcodeFixAppIds.has(app1Id) ? '<span class="text-xs py-1 px-2 bg-red-900 text-red-300 rounded-full">AuthCode Fix</span>' : ''}
+                  </div>
+                  
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Resources:</span>
+                      <span class="font-semibold text-primary">${app1Resources.length}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Total Scopes:</span>
+                      <span class="font-semibold text-primary">${app1TotalScopes}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Redirect URIs:</span>
+                      <span class="font-semibold text-primary">${app1Details.redirect_uris.length}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- App 2 -->
+                <div class="p-4 bg-gray-700 bg-opacity-50 rounded-lg">
+                  <h3 class="text-xl font-bold text-primary mb-2">${escapeHtml(app2Details.name)}</h3>
+                  <p class="text-xs text-gray-400 mb-4 break-all">${escapeHtml(app2Id)}</p>
+                  
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    ${app2Details.foci ? '<span class="text-xs py-1 px-2 bg-green-900 text-green-400 rounded-full">FOCI</span>' : ''}
+                    ${app2Details.public_client ? '<span class="text-xs py-1 px-2 bg-purple-900 text-purple-300 rounded-full">Public Client</span>' : '<span class="text-xs py-1 px-2 bg-gray-900 text-gray-400 rounded-full">Confidential Client</span>'}
+                    ${app2NaaInfo.hasNaa ? '<span class="text-xs py-1 px-2 bg-blue-900 text-blue-300 rounded-full">BroCI/NAA</span>' : ''}
+                    ${app2Bypasses.length > 0 ? '<span class="text-xs py-1 px-2 bg-yellow-900 text-yellow-300 rounded-full">CA Bypass</span>' : ''}
+                    ${authcodeFixAppIds.has(app2Id) ? '<span class="text-xs py-1 px-2 bg-red-900 text-red-300 rounded-full">AuthCode Fix</span>' : ''}
+                  </div>
+                  
+                  <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Resources:</span>
+                      <span class="font-semibold text-primary">${app2Resources.length}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Total Scopes:</span>
+                      <span class="font-semibold text-primary">${app2TotalScopes}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-300">Redirect URIs:</span>
+                      <span class="font-semibold text-primary">${app2Details.redirect_uris.length}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Resource Comparison -->
+              <div class="mt-6">
+                <h3 class="text-lg font-semibold text-primary mb-3">Resource Comparison</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div class="p-3 bg-green-900 bg-opacity-30 rounded">
+                    <div class="text-sm text-gray-300 mb-1">Common Resources</div>
+                    <div class="text-2xl font-bold text-green-400">${commonResources.length}</div>
+                  </div>
+                  <div class="p-3 bg-blue-900 bg-opacity-30 rounded">
+                    <div class="text-sm text-gray-300 mb-1">Unique to ${escapeHtml(app1Details.name)}</div>
+                    <div class="text-2xl font-bold text-blue-400">${app1UniqueResources.length}</div>
+                  </div>
+                  <div class="p-3 bg-purple-900 bg-opacity-30 rounded">
+                    <div class="text-sm text-gray-300 mb-1">Unique to ${escapeHtml(app2Details.name)}</div>
+                    <div class="text-2xl font-bold text-purple-400">${app2UniqueResources.length}</div>
+                  </div>
+                </div>
+                
+                ${commonResources.length > 0 ? `
+                  <div class="mb-4">
+                    <h4 class="text-md font-semibold text-green-400 mb-2">Common Resources (${commonResources.length})</h4>
+                    <div class="max-h-96 overflow-y-auto space-y-3">
+                      ${commonResources.map(resourceId => {
+                        const app1Scopes = app1Details.scopes[resourceId] || [];
+                        const app2Scopes = app2Details.scopes[resourceId] || [];
+                        const commonScopes = app1Scopes.filter(s => app2Scopes.includes(s)).sort();
+                        const app1OnlyScopes = app1Scopes.filter(s => !app2Scopes.includes(s)).sort();
+                        const app2OnlyScopes = app2Scopes.filter(s => !app1Scopes.includes(s)).sort();
+                        return `
+                          <details class="p-3 bg-gray-700 rounded">
+                            <summary class="cursor-pointer hover:text-primary transition">
+                              <span class="font-medium text-primary">${escapeHtml(resourceMap[resourceId]?.displayName) || 'Unknown'}</span>
+                              <div class="text-xs text-gray-400 mt-1">${escapeHtml(resourceId)}</div>
+                              <div class="mt-2 text-xs flex flex-wrap gap-2">
+                                ${commonScopes.length > 0 ? `<span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 rounded">Common: ${commonScopes.length}</span>` : ''}
+                                ${app1OnlyScopes.length > 0 ? `<span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 rounded">App 1 only: ${app1OnlyScopes.length}</span>` : ''}
+                                ${app2OnlyScopes.length > 0 ? `<span class="px-2 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded">App 2 only: ${app2OnlyScopes.length}</span>` : ''}
+                              </div>
+                            </summary>
+                            <div class="mt-3 space-y-3 pl-2 border-l-2 border-gray-600">
+                              ${commonScopes.length > 0 ? `
+                                <div>
+                                  <div class="text-xs font-semibold text-green-400 mb-2">✓ Common Scopes (${commonScopes.length})</div>
+                                  <div class="flex flex-wrap gap-1">
+                                    ${commonScopes.map(scope => `
+                                      <span class="text-xs px-2 py-1 bg-green-900 bg-opacity-30 text-green-200 rounded border border-green-700">${escapeHtml(scope)}</span>
+                                    `).join('')}
+                                  </div>
+                                </div>
+                              ` : ''}
+                              ${app1OnlyScopes.length > 0 ? `
+                                <div>
+                                  <div class="text-xs font-semibold text-blue-400 mb-2">→ Only in ${escapeHtml(app1Details.name)} (${app1OnlyScopes.length})</div>
+                                  <div class="flex flex-wrap gap-1">
+                                    ${app1OnlyScopes.map(scope => `
+                                      <span class="text-xs px-2 py-1 bg-blue-900 bg-opacity-30 text-blue-200 rounded border border-blue-700">${escapeHtml(scope)}</span>
+                                    `).join('')}
+                                  </div>
+                                </div>
+                              ` : ''}
+                              ${app2OnlyScopes.length > 0 ? `
+                                <div>
+                                  <div class="text-xs font-semibold text-purple-400 mb-2">→ Only in ${escapeHtml(app2Details.name)} (${app2OnlyScopes.length})</div>
+                                  <div class="flex flex-wrap gap-1">
+                                    ${app2OnlyScopes.map(scope => `
+                                      <span class="text-xs px-2 py-1 bg-purple-900 bg-opacity-30 text-purple-200 rounded border border-purple-700">${escapeHtml(scope)}</span>
+                                    `).join('')}
+                                  </div>
+                                </div>
+                              ` : ''}
+                            </div>
+                          </details>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  ${app1UniqueResources.length > 0 ? `
+                    <div>
+                      <h4 class="text-md font-semibold text-blue-400 mb-2">Unique to ${escapeHtml(app1Details.name)} (${app1UniqueResources.length})</h4>
+                      <div class="max-h-96 overflow-y-auto space-y-2">
+                        ${app1UniqueResources.map(resourceId => {
+                          const scopes = app1Details.scopes[resourceId].sort();
+                          return `
+                            <details class="p-3 bg-gray-700 rounded">
+                              <summary class="cursor-pointer hover:text-primary transition">
+                                <span class="font-medium text-primary">${escapeHtml(resourceMap[resourceId]?.displayName) || 'Unknown'}</span>
+                                <div class="text-xs text-gray-400 mt-1">${escapeHtml(resourceId)}</div>
+                                <div class="mt-2 text-xs">
+                                  <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 rounded">${scopes.length} scopes</span>
+                                </div>
+                              </summary>
+                              <div class="mt-3 pl-2 border-l-2 border-blue-600">
+                                <div class="flex flex-wrap gap-1">
+                                  ${scopes.map(scope => `
+                                    <span class="text-xs px-2 py-1 bg-blue-900 bg-opacity-30 text-blue-200 rounded border border-blue-700">${escapeHtml(scope)}</span>
+                                  `).join('')}
+                                </div>
+                              </div>
+                            </details>
+                          `;
+                        }).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+                  
+                  ${app2UniqueResources.length > 0 ? `
+                    <div>
+                      <h4 class="text-md font-semibold text-purple-400 mb-2">Unique to ${escapeHtml(app2Details.name)} (${app2UniqueResources.length})</h4>
+                      <div class="max-h-96 overflow-y-auto space-y-2">
+                        ${app2UniqueResources.map(resourceId => {
+                          const scopes = app2Details.scopes[resourceId].sort();
+                          return `
+                            <details class="p-3 bg-gray-700 rounded">
+                              <summary class="cursor-pointer hover:text-primary transition">
+                                <span class="font-medium text-primary">${escapeHtml(resourceMap[resourceId]?.displayName) || 'Unknown'}</span>
+                                <div class="text-xs text-gray-400 mt-1">${escapeHtml(resourceId)}</div>
+                                <div class="mt-2 text-xs">
+                                  <span class="px-2 py-1 bg-purple-900 bg-opacity-50 text-purple-300 rounded">${scopes.length} scopes</span>
+                                </div>
+                              </summary>
+                              <div class="mt-3 pl-2 border-l-2 border-purple-600">
+                                <div class="flex flex-wrap gap-1">
+                                  ${scopes.map(scope => `
+                                    <span class="text-xs px-2 py-1 bg-purple-900 bg-opacity-30 text-purple-200 rounded border border-purple-700">${escapeHtml(scope)}</span>
+                                  `).join('')}
+                                </div>
+                              </div>
+                            </details>
+                          `;
+                        }).join('')}
+                      </div>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            `;
+            
+            appsContainer.appendChild(comparisonCard);
+            
+            // Add back button handler
+            document.getElementById('backFromComparison').addEventListener('click', () => {
+              selectedAppsForComparison = [];
+              updateCompareCount();
+              displayApps();
+            });
+          }
+
           
 
           function displayDetailedApp(appId, details) {
@@ -876,6 +1206,15 @@
                 // Count total scopes
                 const totalScopes = sortedResources.reduce((count, [_, scopes]) => count + scopes.length, 0);
 
+                // Add selection state in compare mode
+                const isSelected = compareMode && selectedAppsForComparison.includes(appId);
+                if (compareMode) {
+                  card.classList.add('transition-all', 'relative');
+                  if (isSelected) {
+                    card.classList.add('ring-4', 'ring-primary', 'ring-opacity-60');
+                  }
+                }
+
                 card.innerHTML = `
                   <div class="flex justify-between items-start mb-2">
                     <h2 class="text-xl font-bold text-primary">${escapeHtml(details.name)}</h2>
@@ -944,16 +1283,44 @@
                         </div>` : ''}
                     </div>
                   </div>
+                  
+                  ${compareMode ? `
+                    <button class="select-app-btn w-full mt-4 py-3 px-4 rounded-lg font-semibold text-center transition-all touch-manipulation ${isSelected ? 'bg-primary text-gray-900' : selectedAppsForComparison.length < 2 ? 'bg-gray-700 text-gray-100 hover:bg-gray-600 active:bg-gray-500' : 'bg-gray-800 text-gray-500 cursor-not-allowed'} flex items-center justify-center gap-2"
+                            ${selectedAppsForComparison.length >= 2 && !isSelected ? 'disabled' : ''}>
+                      ${isSelected ? `
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Selected
+                      ` : selectedAppsForComparison.length < 2 ? `
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Select as App ${selectedAppsForComparison.length + 1}
+                      ` : 'Selection Full'}
+                    </button>
+                  ` : ''}
                 `;
                 
-                // card.addEventListener('click', () => {
-                // });
+                // Handle clicks in normal mode (view details)
                 $(card).on('click', function(e) {
-                  if ($(e.target).closest('.copy-appid-btn').length) {
-                    // Don't show details if the copy button was clicked
+                  // Don't trigger if clicking on buttons
+                  if ($(e.target).closest('.copy-appid-btn, .select-app-btn').length) {
                     return;
                   }
-                  displayDetailedApp(appId, details);
+                  
+                  // Only show details in normal mode
+                  if (!compareMode) {
+                    displayDetailedApp(appId, details);
+                  }
+                });
+                
+                // Handle select button click in compare mode
+                $(card).on('click', '.select-app-btn', function(e) {
+                  e.stopPropagation();
+                  if (selectedAppsForComparison.length < 2 || selectedAppsForComparison.includes(appId)) {
+                    toggleAppSelection(appId);
+                  }
                 });
 
                 $(card).on('click', '.copy-appid-btn', function(event) {
